@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Logic
 {
-    public class Tree<T> where T : IComparable
+    public class Tree<T> : ITree<T> where T : IComparable
     {
         public class Node
         {

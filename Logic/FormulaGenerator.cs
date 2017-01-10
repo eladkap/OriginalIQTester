@@ -6,16 +6,18 @@ namespace Logic
 {
     public class FormulaGenerator
     {
-        //-------------------------(formula 1) init ----------------------------//
-
-        // q - the empty vertex
-        public static string GenerateInitialFormula(int q)
+        /// <summary>
+        /// Generates formula 1 (init)
+        /// </summary>
+        /// <param name="emptyVertexIndex">Empty vertex index</param>
+        /// <returns>Formula 1</returns>
+        public static string GenerateInitialFormula(int emptyVertexIndex, int vertices)
         {
-            string formula = $"~Y{q},1&";
+            string formula = $"~Y{emptyVertexIndex},1&";
             string clause = "";
-            for (int i = 1; i <= Constants.VERTICES; i++)
+            for (int i = 1; i <= vertices; i++)
             {
-                if (i != q)
+                if (i != emptyVertexIndex)
                 {
                     clause += $"Y{i},1&";
                 }
@@ -26,11 +28,15 @@ namespace Logic
         }
 
         //-------------------------(formula 2) one_step ----------------------------//
-
-        public static string GenerateOneStepFormula(List<Tuple<int, int, int>> A)
+        /// <summary>
+        /// Generates formula 2 (one_step)
+        /// </summary>
+        /// <param name="A">All valid triplets of neighbor vertices</param>
+        /// <returns>Formula 2</returns>
+        public static string GenerateOneStepFormula(List<Tuple<int, int, int>> A, int maxSteps)
         {
             string formula = "";
-            for (int p = 1; p <= Constants.MAX_STEPS; p++)
+            for (int p = 1; p <= maxSteps; p++)
             {
                 formula += $"({GenerateOneStep2(p, A)})&";
             }
@@ -69,12 +75,15 @@ namespace Logic
             return clause;
         }
 
-        //-------------------------(formula 3) legal ----------------------------//
-
-        public static string GenerateLegalFormula(List<Tuple<int, int, int>> A)
+        /// <summary>
+        /// Generates formula 3 (legal)
+        /// </summary>
+        /// <param name="A">All valid triplets of neighbor vertices</param>
+        /// <returns>Formula 3</returns>
+        public static string GenerateLegalFormula(List<Tuple<int, int, int>> A, int maxSteps)
         {
             string formula = "";
-            for (int p = 1; p <= Constants.MAX_STEPS; p++)
+            for (int p = 1; p <= maxSteps; p++)
             {
                 formula += $"({GenerateLegal1(p, A)})&";
             }
@@ -97,19 +106,23 @@ namespace Logic
         }
 
         //-------------------------(formula 4) steps ----------------------------//
-
-        public static string GenerateStepsFormula(List<Tuple<int, int, int>> A)
+        /// <summary>
+        /// Generates formula 4 (steps)
+        /// </summary>
+        /// <param name="A">All valid triplets of neighbor vertices</param>
+        /// <returns>Formula 4</returns>
+        public static string GenerateStepsFormula(List<Tuple<int, int, int>> A, int vertices, int maxSteps)
         {
             string formula = "";
-            for (int p = 1; p <= Constants.MAX_STEPS; p++)
+            for (int p = 1; p <= maxSteps; p++)
             {
-                formula += $"({GenerateSteps12(p, A)})&";
+                formula += $"({GenerateSteps12(p, A, vertices)})&";
             }
             formula = formula.Remove(formula.Length - 1, 1);
             return formula;
         }
 
-        public static string GenerateSteps12(int p, List<Tuple<int, int, int>> A)
+        public static string GenerateSteps12(int p, List<Tuple<int, int, int>> A, int vertices)
         {
             string clause = "";
             foreach (var tuple in A)
@@ -117,7 +130,7 @@ namespace Logic
                 int i = tuple.Item1;
                 int j = tuple.Item2;
                 int k = tuple.Item3;
-                clause += $"({GenerateSteps2(p, i, j, k)}&{GenerateSteps1(p, i, j, k)})|";
+                clause += $"({GenerateSteps2(p, i, j, k)}&{GenerateSteps1(p, i, j, k, vertices)})|";
             }
             clause = clause.Remove(clause.Length - 1, 1);
             return clause;
@@ -128,10 +141,10 @@ namespace Logic
             return $"X{i},{j},{k},{p}&~Y{i},{p + 1}&~Y{j},{p + 1}&Y{k},{p + 1}";
         }
 
-        public static string GenerateSteps1(int p, int i, int j, int k)
+        public static string GenerateSteps1(int p, int i, int j, int k, int vertices)
         {
             string clause = "";
-            for (int a = 1; a <= Constants.VERTICES; a++)
+            for (int a = 1; a <= vertices; a++)
             {
                 if (a != i && a != j && a != k)
                 {
@@ -143,18 +156,21 @@ namespace Logic
         }
 
         //-------------------------(formula 5) final ----------------------------//
-
-        public static string GenerateFinalFormula()
+        /// <summary>
+        /// Generates formula 5 (final)
+        /// </summary>
+        /// <returns>Formula 5</returns>
+        public static string GenerateFinalFormula(int vertices, int maxSteps)
         {
             string formula = "";
-            for (int i = 1; i <= Constants.VERTICES; i++)
+            for (int i = 1; i <= vertices; i++)
             {
-                string clause = $"(Y{i},{Constants.MAX_STEPS + 1}&";
-                for (int j = 1; j <= Constants.VERTICES; j++)
+                string clause = $"(Y{i},{maxSteps + 1}&";
+                for (int j = 1; j <= vertices; j++)
                 {
                     if (j != i)
                     {
-                        clause += $"~Y{j},{Constants.MAX_STEPS + 1}&";
+                        clause += $"~Y{j},{maxSteps + 1}&";
                     }
                 }
                 clause = clause.Remove(clause.Length - 1, 1);

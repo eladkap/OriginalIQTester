@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Logic
 {
@@ -26,6 +25,10 @@ namespace Logic
             _runId = 1;
         }
 
+        /// <summary>
+        /// Adds artificial variables acccording to Tsietin algorithm while scanning the node
+        /// </summary>
+        /// <param name="node">Tsietin tree node</param>
         private void DoAction(Tree<string>.Node node)
         {
             if (node == expTree.Root)
@@ -89,7 +92,11 @@ namespace Logic
             return "~" + literal;
         }
 
-        // this function removes redundant "nots" (~) in the literal
+        /// <summary>
+        /// Removes redundant "nots" (~) in the literal
+        /// </summary>
+        /// <param name="literal">Literal</param>
+        /// <returns>Simplified literal</returns>
         public static string Simplify(string literal)
         {
             string simplifiedLiteral = "";
@@ -215,6 +222,9 @@ namespace Logic
             return false;
         }
 
+        /// <summary>
+        /// Splits CNF clauses seperated with AND operators
+        /// </summary>
         public void SplitCnfClauses()
         {
             foreach (var clause in cnfClauses)

@@ -4,17 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1D2AD5BC-2FA4-479E-8B71-4AC48A28966D}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{CE1AB746-F880-42CD-8664-C1F78DBB4C28}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OriginalIQTester</RootNamespace>
-    <AssemblyName>OriginalIQTester</AssemblyName>
+    <RootNamespace>OriginalIQTesterLogic</RootNamespace>
+    <AssemblyName>OriginalIQTesterLogic</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -43,12 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="GameLogic.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Test.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Graphs\Graphs.csproj">
@@ -58,10 +51,6 @@
     <ProjectReference Include="..\Logic\Logic.csproj">
       <Project>{C9449106-A05A-4B52-A245-533DF8C8E5D8}</Project>
       <Name>Logic</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OriginalIQTesterLogic\OriginalIQTesterLogic.csproj">
-      <Project>{CE1AB746-F880-42CD-8664-C1F78DBB4C28}</Project>
-      <Name>OriginalIQTesterLogic</Name>
     </ProjectReference>
     <ProjectReference Include="..\Resources\Resources.csproj">
       <Project>{336900E8-A216-46F1-9F42-25B0A75F0B99}</Project>

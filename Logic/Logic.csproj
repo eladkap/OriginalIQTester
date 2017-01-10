@@ -40,8 +40,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CnfConverter.cs" />
     <Compile Include="ExpressionTree.cs" />
     <Compile Include="FormulaGenerator.cs" />
+    <Compile Include="IExpressionTree.cs" />
+    <Compile Include="ITree.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tree.cs" />
     <Compile Include="Tseitin.cs" />

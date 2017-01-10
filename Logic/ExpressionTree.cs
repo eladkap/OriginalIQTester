@@ -2,7 +2,7 @@
 
 namespace Logic
 {
-    public class ExpressionTree
+    public class ExpressionTree : IExpressionTree
     {
         private Tree<string> _tree;
 
@@ -24,7 +24,7 @@ namespace Logic
             return count;
         }
 
-        private void CreateExpressionTree(string nnfExp)
+        public void CreateExpressionTree(string nnfExp)
         {
             _tree = new Tree<string>();
             Tree<string>.Node root = BuildExpressionTree(nnfExp);
