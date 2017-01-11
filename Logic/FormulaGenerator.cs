@@ -11,19 +11,22 @@ namespace Logic
         /// </summary>
         /// <param name="emptyVertexIndex">Empty vertex index</param>
         /// <returns>Formula 1</returns>
-        public static string GenerateInitialFormula(int emptyVertexIndex, int vertices)
+        public static string GenerateInitialFormula(bool[] U_init)
         {
-            string formula = $"~Y{emptyVertexIndex},1&";
-            string clause = "";
-            for (int i = 1; i <= vertices; i++)
+            string formula = "(";
+            for (int i = 1; i < U_init.Length; i++)
             {
-                if (i != emptyVertexIndex)
+                if (U_init[i])
                 {
-                    clause += $"Y{i},1&";
+                    formula += $"Y{i},1&";
+                }
+                else
+                {
+                    formula += $"~Y{i},1&";
                 }
             }
-            clause = clause.Remove(clause.Length - 1, 1);
-            formula += clause;
+            formula = formula.Remove(formula.Length - 1, 1);
+            formula += ")";
             return formula;
         }
 

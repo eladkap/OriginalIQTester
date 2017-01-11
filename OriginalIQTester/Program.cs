@@ -66,21 +66,16 @@ namespace OriginalIQTester
                 return;
             }
 
-            // Input empty vertex index
-            int emptyVertexIndex = 0;
-            emptyVertexIndex = InputEmptyVertex();
-            if (emptyVertexIndex < 0)
-            {
-                Console.WriteLine("Bad argument.");
-                return;
-            }
-            if (!IsLegalVertexIndex(emptyVertexIndex, boardsLinesNumber))
-            {
-                Console.WriteLine("Illegal vertex index.");
-                return;
-            }
 
-            gameLogic = new GameLogic(boardsLinesNumber, emptyVertexIndex);
+            bool[] U_final = new bool[15 + 1];
+            bool[] U_init = new bool[15 + 1]; // change the '15' with variable in the app
+            CreateUInit(U_init);
+            CreateUFinal(U_final);
+
+            int mode = 1;// classic
+           
+
+            gameLogic = new GameLogic(boardsLinesNumber, U_init, U_final, mode);
 
             Console.WriteLine("Solving...");
             List<Variable> path = gameLogic.SolveGame();
@@ -95,6 +90,26 @@ namespace OriginalIQTester
             }
 
             Console.WriteLine("End.");
+        }
+
+        private static void CreateUInit(bool[] u_init)
+        {
+            for (int i = 1; i < u_init.Length; i++)
+            {
+                u_init[i] = true;
+            }
+            u_init[11] = false;
+            u_init[15] = false;
+        }
+
+        private static void CreateUFinal(bool[] u_final)
+        {
+            for (int i = 1; i < u_final.Length; i++)
+            {
+                u_final[i] = false;
+            }
+            u_final[15] = true;
+            u_final[11] = true;
         }
     }
 }

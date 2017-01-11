@@ -68,10 +68,6 @@ namespace Sat
                 {
                     Console.WriteLine($"{variable.Phase}: {variable.From} -> {variable.To}");
                 }
-                else if (variable.Prefix.Equals("Y"))
-                {
-                    Console.WriteLine($"{variable.Phase}: {variable.Vertex}");
-                }
             }
         }
     }

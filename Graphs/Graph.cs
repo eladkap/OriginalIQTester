@@ -8,7 +8,7 @@ namespace Graphs
     {
         public List<Vertex> V;
 
-        public Graph(int n, int emptyIndex)
+        public Graph(int n, bool[] U_init)
         {
             V = new List<Vertex>();
 
@@ -37,7 +37,7 @@ namespace Graphs
                 for (int j = 1; j <= i; j++)
                 {
                     int[] neighborsArray = CreateNeighbors(M, i, j);
-                    Vertex vertex = new Vertex(k, k != emptyIndex, neighborsArray);
+                    Vertex vertex = new Vertex(k, U_init[i], neighborsArray);
                     k++;
                     V.Add(vertex);
                 }

@@ -11,27 +11,52 @@ namespace OriginalIQTesterLogic
     public class GameLogic
     {
         private int _boardsLinesNumber;
-        private int _emptyVertexIndex;
         private int _verticesNumber;
         private int _maxStepsNumber;
+        private bool[] _U_init;
+        private bool[] _U_final;
         private string _cnfInput;
         private int _id;
         private Dictionary<string, int> _variableToIdDict;
         private Dictionary<int, string> _idToVariableDict;
 
-        public GameLogic(int boardsLinesNumber, int emptyVertexIndex)
+        public GameLogic(int boardsLinesNumber, bool[] U_init, bool[] U_final, int mode)
         {
             _boardsLinesNumber = boardsLinesNumber;
-            _emptyVertexIndex = emptyVertexIndex;
+            if (mode == 1)
+            {
+                _maxStepsNumber = SumCheckers(U_init) - 1;
+            }
+            else
+            {
+                _maxStepsNumber = SumCheckers(U_init) - SumCheckers(U_final);
+            }
+            Console.WriteLine($"max steps: {_maxStepsNumber}");
+
+            _U_init = U_init;
+            _U_final = U_final;
             _variableToIdDict = new Dictionary<string, int>();
             _idToVariableDict = new Dictionary<int, string>();
             _id = 1;
             _cnfInput = "cnfInput.txt";
         }
 
-        private Graph BuildGraph(int lines, int emptyVertexIndex)
+        private int SumCheckers(bool[] U)
         {
-            return new Graph(_boardsLinesNumber, emptyVertexIndex);
+            int sum = 0;
+            for (int i = 1; i < U.Length; i++)
+            {
+                if (U[i])
+                {
+                    sum++;
+                }
+            }
+            return sum;
+        }
+
+        private Graph BuildGraph(int lines, bool[] U_init)
+        {
+            return new Graph(_boardsLinesNumber, U_init);
         }
 
         public List<Tuple<int, int, int>> BuildGroupA(Graph G, int vertices)
@@ -106,10 +131,9 @@ namespace OriginalIQTesterLogic
         public List<Variable> SolveGame()
         {
             _verticesNumber = CalculateVerticesNumber();
-            _maxStepsNumber = _verticesNumber - 2;
 
             // Build vertices graph
-            Graph G = BuildGraph(_boardsLinesNumber, _emptyVertexIndex);
+            Graph G = BuildGraph(_boardsLinesNumber, _U_init);
 
             // Create group A - valid triplets of neighbor vertices
             List<Tuple<int, int, int>> A = BuildGroupA(G, _verticesNumber);
@@ -123,7 +147,7 @@ namespace OriginalIQTesterLogic
             BuildYVariables(Y, _verticesNumber, _maxStepsNumber);
 
             // Generate formulas
-            string initFormula = FormulaGenerator.GenerateInitialFormula(_emptyVertexIndex, _verticesNumber);
+            string initFormula = FormulaGenerator.GenerateInitialFormula(_U_init);
             string oneStepFormula = FormulaGenerator.GenerateOneStepFormula(A, _maxStepsNumber);
             string legalFormula = FormulaGenerator.GenerateLegalFormula(A, _maxStepsNumber);
             string stepsFormula = FormulaGenerator.GenerateStepsFormula(A, _verticesNumber, _maxStepsNumber);
