@@ -17,12 +17,14 @@ namespace OriginalIQTesterLogic
         private bool[] _U_final;
         private string _cnfInput;
         private int _id;
+        private int _mode;
         private Dictionary<string, int> _variableToIdDict;
         private Dictionary<int, string> _idToVariableDict;
 
         public GameLogic(int boardsLinesNumber, bool[] U_init, bool[] U_final, int mode)
         {
             _boardsLinesNumber = boardsLinesNumber;
+            _mode = mode;
             if (mode == 1)
             {
                 _maxStepsNumber = SumCheckers(U_init) - 1;
@@ -151,7 +153,15 @@ namespace OriginalIQTesterLogic
             string oneStepFormula = FormulaGenerator.GenerateOneStepFormula(A, _maxStepsNumber);
             string legalFormula = FormulaGenerator.GenerateLegalFormula(A, _maxStepsNumber);
             string stepsFormula = FormulaGenerator.GenerateStepsFormula(A, _verticesNumber, _maxStepsNumber);
-            string finalFormula = FormulaGenerator.GenerateFinalFormula(_verticesNumber, _maxStepsNumber);
+            string finalFormula;
+            if (_mode == 1)
+            {
+                finalFormula = FormulaGenerator.GenerateFinalFormulaClassic(_verticesNumber, _maxStepsNumber);
+            }
+            else
+            {
+                finalFormula = FormulaGenerator.GenerateFinalFormulaAdvanced(_U_final, _maxStepsNumber);
+            }
 
             // Convert NNF formulas to CNF format
             CnfConverter cnfConverter = new CnfConverter(_variableToIdDict, _idToVariableDict, _id);

@@ -72,8 +72,8 @@ namespace OriginalIQTester
             CreateUInit(U_init);
             CreateUFinal(U_final);
 
-            int mode = 1;// classic
-           
+            int mode = 1; // classic
+            mode = 2; // advanced
 
             gameLogic = new GameLogic(boardsLinesNumber, U_init, U_final, mode);
 
@@ -98,8 +98,9 @@ namespace OriginalIQTester
             {
                 u_init[i] = true;
             }
-            u_init[11] = false;
-            u_init[15] = false;
+            u_init[1] = false;
+            u_init[5] = false;
+            u_init[10] = false;
         }
 
         private static void CreateUFinal(bool[] u_final)
@@ -108,8 +109,9 @@ namespace OriginalIQTester
             {
                 u_final[i] = false;
             }
+            u_final[4] = true;
+            u_final[13] = true;
             u_final[15] = true;
-            u_final[11] = true;
         }
     }
 }

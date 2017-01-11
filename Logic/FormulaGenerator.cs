@@ -158,12 +158,12 @@ namespace Logic
             return clause;
         }
 
-        //-------------------------(formula 5) final ----------------------------//
+        //-------------------------(formula 5) final classic game----------------------------//
         /// <summary>
         /// Generates formula 5 (final)
         /// </summary>
         /// <returns>Formula 5</returns>
-        public static string GenerateFinalFormula(int vertices, int maxSteps)
+        public static string GenerateFinalFormulaClassic(int vertices, int maxSteps)
         {
             string formula = "";
             for (int i = 1; i <= vertices; i++)
@@ -180,6 +180,30 @@ namespace Logic
                 formula += clause + ")|";
             }
             formula = formula.Remove(formula.Length - 1, 1);
+            return formula;
+        }
+
+        //-------------------------(formula 5) final advanced game----------------------------//
+        /// <summary>
+        /// Generates formula 5 (final)
+        /// </summary>
+        /// <returns>Formula 5</returns>
+        public static string GenerateFinalFormulaAdvanced(bool[] U_final, int maxSteps)
+        {
+            string formula = "(";
+            for (int i = 1; i < U_final.Length; i++)
+            {
+                if (U_final[i])
+                {
+                    formula += $"Y{i},{maxSteps + 1}&";
+                }
+                else
+                {
+                    formula += $"~Y{i},{maxSteps + 1}&";
+                }
+            }
+            formula = formula.Remove(formula.Length - 1, 1);
+            formula += ")";
             return formula;
         }
     }
