@@ -44,7 +44,7 @@ namespace Graphs
             }
         }
 
-        int[] CreateNeighbors(int[,] M, int i, int j)
+        private int[] CreateNeighbors(int[,] M, int i, int j)
         {
             int[] neighborsArray = new int[Constants.MAX_NEIGHBORS];
             neighborsArray[0] = M[i - 1, j];
@@ -59,6 +59,48 @@ namespace Graphs
         public bool AreAlignedNeighbors(int i, int j, int k)
         {
             return V[i].NeighborType(j) == V[j].NeighborType(k) && V[i].NeighborType(j) != 0 && V[j].NeighborType(k) != 0;
+        }
+
+        public bool IsLegalMove(int i, int j, int k)
+        {
+            return AreAlignedNeighbors(i, j, k) && V[i].HasChecker && V[j].HasChecker && !V[k].HasChecker;
+        }
+
+        public bool Move(int i, int j, int k)
+        {
+            if (AreAlignedNeighbors(i, j, k))
+            {
+                IsLegalMove(i, j, k);
+                return true;
+            }
+            return false;
+        }
+
+        public void UpdateGraphAfterMove(int i, int j, int k)
+        {
+            V[i].HasChecker = false;
+            V[j].HasChecker = false;
+            V[k].HasChecker = true;
+        }
+
+        public List<bool> GetVerticesState()
+        {
+            List<bool> verticesStateList = new List<bool>();
+            foreach (var vertex in V)
+            {
+                verticesStateList.Add(vertex.HasChecker);
+            }
+            return verticesStateList;
+        }
+
+        public void SetChecker(int index)
+        {
+            V[index].HasChecker = true;
+        }
+
+        public void UnsetChecker(int index)
+        {
+            V[index].HasChecker = false;
         }
 
         public void Show()

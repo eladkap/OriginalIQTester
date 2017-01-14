@@ -130,7 +130,7 @@ namespace OriginalIQTesterLogic
             return verticesNum;
         }
 
-        public List<Variable> SolveGame()
+        public List<Step> SolveGame()
         {
             _verticesNumber = CalculateVerticesNumber();
 
@@ -187,8 +187,9 @@ namespace OriginalIQTesterLogic
 
             // Build solution
             List<Variable> path = SolutionBuilder.BuildSolution(sln, _idToVariableDict);
+            List<Step> stepsList = SolutionBuilder.RetrieveSolution(path);
 
-            return path;
+            return stepsList;
         }
     }
 }

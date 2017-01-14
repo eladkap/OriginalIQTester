@@ -45,6 +45,10 @@
     <Compile Include="SolutionBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Graphs\Graphs.csproj">
+      <Project>{390D6EA5-18F4-4FF5-B18D-959B3153EE80}</Project>
+      <Name>Graphs</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Logic\Logic.csproj">
       <Project>{C9449106-A05A-4B52-A245-533DF8C8E5D8}</Project>
       <Name>Logic</Name>

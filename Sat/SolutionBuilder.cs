@@ -1,4 +1,5 @@
-﻿using Logic;
+﻿using Graphs;
+using Logic;
 using System;
 using System.Collections.Generic;
 
@@ -60,14 +61,28 @@ namespace Sat
             return path;
         }
 
-        public static void ShowSolution(List<Variable> path)
+        public static List<Step> RetrieveSolution(List<Variable> path)
         {
+            if (path == null)
+            {
+                return null;
+            }
+            List<Step> stepsList = new List<Step>();
             foreach (var variable in path)
             {
                 if (variable.Prefix.Equals("X"))
                 {
-                    Console.WriteLine($"{variable.Phase}: {variable.From} -> {variable.To}");
+                    stepsList.Add(new Step(variable.Phase, variable.From, variable.Via, variable.To));
                 }
+            }
+            return stepsList;
+        }
+
+        public static void ShowSolution(List<Step> stepsList)
+        {
+            foreach (var step in stepsList)
+            {
+                Console.WriteLine($"{step.Phase}: {step.From} -> {step.Via} -> {step.To}");
             }
         }
     }

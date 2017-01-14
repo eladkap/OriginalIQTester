@@ -3,6 +3,7 @@ using Logic;
 using System.Collections.Generic;
 using Sat;
 using OriginalIQTesterLogic;
+using Graphs;
 
 namespace OriginalIQTester
 {
@@ -53,6 +54,28 @@ namespace OriginalIQTester
             return vertexIndex >= 1 && vertexIndex <= CalculateVerticesNumber(boardsLinesNumber);
         }
 
+        private static void CreateUInit(bool[] u_init)
+        {
+            for (int i = 1; i < u_init.Length; i++)
+            {
+                u_init[i] = true;
+            }
+            u_init[1] = false;
+            u_init[5] = false;
+            u_init[10] = false;
+        }
+
+        private static void CreateUFinal(bool[] u_final)
+        {
+            for (int i = 1; i < u_final.Length; i++)
+            {
+                u_final[i] = false;
+            }
+            u_final[4] = true;
+            u_final[13] = true;
+            u_final[15] = true;
+        }
+
         static void Main(string[] args)
         {
             GameLogic gameLogic;
@@ -78,40 +101,18 @@ namespace OriginalIQTester
             gameLogic = new GameLogic(boardsLinesNumber, U_init, U_final, mode);
 
             Console.WriteLine("Solving...");
-            List<Variable> path = gameLogic.SolveGame();
+            List<Step> stepsList = gameLogic.SolveGame();
 
-            if (path == null)
+            if (stepsList == null)
             {
                 Console.WriteLine("No solution.");
             }
             else
             {
-                SolutionBuilder.ShowSolution(path);
+                SolutionBuilder.ShowSolution(stepsList);
             }
 
             Console.WriteLine("End.");
-        }
-
-        private static void CreateUInit(bool[] u_init)
-        {
-            for (int i = 1; i < u_init.Length; i++)
-            {
-                u_init[i] = true;
-            }
-            u_init[1] = false;
-            u_init[5] = false;
-            u_init[10] = false;
-        }
-
-        private static void CreateUFinal(bool[] u_final)
-        {
-            for (int i = 1; i < u_final.Length; i++)
-            {
-                u_final[i] = false;
-            }
-            u_final[4] = true;
-            u_final[13] = true;
-            u_final[15] = true;
         }
     }
 }
