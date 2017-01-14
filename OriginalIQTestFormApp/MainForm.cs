@@ -11,24 +11,16 @@ namespace OriginalIQTestFormApp
 {
     public partial class MainForm : Form
     {
-        static Color OccupiedColor = Color.Blue;
-        static Color EmptyColor = Color.White;
-        static int DeltaH = 50;
-        static double ShiftXRatio = 1.4;
-        static int ButtonSize = 32;
-        static int IndexFont = 10;
-        static int PanelPaddingY = 10;
-        static int PanelWidth = 400;
-        static int PanelHeight = 300;
+        private static Color EmptyColor = Color.White;
 
         int boardLines = 5;
         int vertices;
-        List<Button> Vlist;
-        Dictionary<int, Button> vertexToButtonDict;
         bool[] initialVector;
         bool[] finalVector;
-        Graph graph;
         int mode;
+
+        Board initialBoard;
+        Board finalBoard;
 
         SolutionForm solutionForm;
 
@@ -37,21 +29,43 @@ namespace OriginalIQTestFormApp
         public MainForm()
         {
             InitializeComponent();
-            panel1.Paint += new PaintEventHandler(panel_Paint);
-            panel2.Paint += new PaintEventHandler(panel_Paint);
-            vertexToButtonDict = new Dictionary<int, Button>();
+
             vertices = CalculateVertices(boardLines);
-            InitializeInitialVector();
-            graph = new Graph(boardLines, initialVector);
-            InitializeFinalVector();
-            InitialMode();
-            SetPanelSize(panel1, PanelWidth, PanelHeight);
-            SetPanelSize(panel2, PanelWidth, PanelHeight);
+
+            SetInitialBoard();
+            SetFinalBoard();
+
+            SetMode();
             DisableProgressBar();
             solveBackgroundworker = new BackgroundWorker();
             solveBackgroundworker.DoWork += Solve_DoWork;
             solveBackgroundworker.RunWorkerCompleted += SolveCompleted;
             WindowState = FormWindowState.Maximized;
+        }
+
+        private Board SetBoard(bool[] vector, Color occupiedColor, Point location)
+        {
+            Board board = new Board(boardLines, occupiedColor, vector);
+            board.Panel.Paint += new PaintEventHandler(panel_Paint);
+            board.Panel.Location = new Point(location.X, location.Y);
+            foreach (var vertexButton in board.VertexButtonsList)
+            {
+                vertexButton.Click += new EventHandler(vertex_click);
+            }
+            Controls.Add(board.Panel);
+            return board;
+        }
+
+        private void SetInitialBoard()
+        {
+            initialVector = InitializeVector(true);
+            initialBoard = SetBoard(initialVector, Color.Blue, new Point(40, 160));
+        }
+
+        private void SetFinalBoard()
+        {
+            finalVector = InitializeVector(false);
+            finalBoard = SetBoard(finalVector, Color.Green, new Point(570, 160));
         }
 
         private void DisableProgressBar()
@@ -68,38 +82,19 @@ namespace OriginalIQTestFormApp
             progressBar_solve.Show();
         }
 
-        private void InitialMode()
+        private void SetMode()
         {
             mode = 1; // classic
         }
 
-        private void SetPanelSize(Panel panel, int panelWidth, int panelHeight)
+        public bool[] InitializeVector(bool value)
         {
-            panel.Size = new Size(PanelWidth, PanelHeight);
-        }
-
-        protected void panel_Paint(object sender, PaintEventArgs e)
-        {
-            BuildGraphVertices();
-            BuildGraphEdges(e);
-        }
-
-        public void InitializeInitialVector()
-        {
-            initialVector = new bool[vertices + 1];
-            for (int i = 0; i < initialVector.Length; i++)
+            bool[] vector = new bool[vertices + 1];
+            for (int i = 0; i < vector.Length; i++)
             {
-                initialVector[i] = true;
+                vector[i] = value;
             }
-        }
-
-        public void InitializeFinalVector()
-        {
-            finalVector = new bool[vertices + 1];
-            for (int i = 0; i < finalVector.Length; i++)
-            {
-                finalVector[i] = true;
-            }
+            return vector;
         }
 
         private int CalculateVertices(int boardLines)
@@ -112,97 +107,81 @@ namespace OriginalIQTestFormApp
             return sum;
         }
 
-        public void BuildGraphEdges(PaintEventArgs e)
+        //----------------------Board--------------------------------//
+
+        protected void panel_Paint(object sender, PaintEventArgs e)
         {
-
-            Graph G = new Graph(boardLines, initialVector);
-            for (int i = 1; i < G.V.Count; i++)
+            Panel panel = (Panel)sender;
+            if (initialBoard.Panel == panel)
             {
-                for (int j = 1; j < G.V.Count; j++)
-                {
-                    if (G.V[i].Index < G.V[j].Index && G.V[i].IsNeighbor(G.V[j].Index))
-                    {
-                        Button btn1 = vertexToButtonDict[G.V[i].Index];
-                        Button btn2 = vertexToButtonDict[G.V[j].Index];
-
-                        Pen pen = new Pen(Color.FromArgb(255, 0, 0, 0));
-
-                        int x1 = btn1.Location.X + btn1.Width / 2;
-                        int y1 = btn1.Location.Y + btn1.Height / 2;
-                        int x2 = btn2.Location.X + btn2.Width / 2;
-                        int y2 = btn2.Location.Y + btn2.Height / 2;
-                        e.Graphics.DrawLine(pen, x1, y1, x2, y2);
-                    }
-                }
+                initialVector = InitializeVector(true);
+                //initialBoard.BuildGraphVertices(initialVector);
+                initialBoard.Vector = initialVector;
+                initialBoard.BuildGraphEdges(e, initialVector);
+            }
+            else if (finalBoard.Panel == panel)
+            {
+                finalVector = InitializeVector(false);
+                //finalBoard.BuildGraphVertices(finalVector);
+                finalBoard.Vector = finalVector;
+                finalBoard.BuildGraphEdges(e, finalVector);
             }
         }
 
-        public void BuildGraphVertices()
+        private Board GetBoardByButton(Button vertexButton)
         {
-            Vlist = new List<Button>();
-            Pen pen = new Pen(Color.Black, 3);
-            Font font = new Font("Arial", IndexFont, FontStyle.Regular);
-
-            int btnX = panel1.Width / 2;
-            int btnY = PanelPaddingY;
-
-            int deltaH = DeltaH;
-            int shiftX = (int)(deltaH / ShiftXRatio);
-            int k = 1;
-            for (int i = 1; i <= boardLines; i++)
+            foreach (var button in initialBoard.VertexButtonsList)
             {
-                int firstBtnX = btnX;
-                for (int j = 1; j <= i; j++, k++)
+                if (button == vertexButton)
                 {
-                    Button btn = new Button();
-                    btn.Click += new EventHandler(vertex_click);
-
-                    btn.BackColor = OccupiedColor;
-                    btn.Width = ButtonSize;
-                    btn.Height = ButtonSize;
-
-                    //GraphicsPath p = new GraphicsPath();
-                    //p.AddEllipse(2, 2, btn.Width - 8, btn.Height - 8);
-                    //btn.Region = new Region(p);
-
-                    btn.Location = new Point(btnX, btnY);
-
-                    //btn.CreateGraphics().DrawEllipse(pen, 5, 5, 20, 20);
-                    btn.Text = $"{k}";
-                    btn.Font = font;
-                    panel1.Controls.Add(btn);
-                    Vlist.Add(btn);
-                    vertexToButtonDict[k] = btn;
-
-
-                    if (i > 1)
-                    {
-                        btnX += shiftX * 2;
-                    }
+                    return initialBoard;
                 }
-
-                btnX = firstBtnX - shiftX;
-                btnY += deltaH;
             }
-
+            foreach (var button in finalBoard.VertexButtonsList)
+            {
+                if (button == vertexButton)
+                {
+                    return finalBoard;
+                }
+            }
+            return null;
         }
 
         private void vertex_click(object sender, EventArgs e)
         {
             Button srcBtn = (Button)sender;
+            Board board = GetBoardByButton(srcBtn);
 
             int vertexIndex = int.Parse(srcBtn.Text);
-            if (initialVector[vertexIndex])
+            MessageBox.Show($"{vertexIndex} {board.OccupiedColor} {board.Vector[vertexIndex]}");
+            board.Update(vertexIndex);
+            /*
+            if (board == initialBoard)
             {
-                initialVector[vertexIndex] = false;
+                UpdateBoard(initialBoard, initialVector, srcBtn, vertexIndex);
+            }
+            else if (board == finalBoard)
+            {
+                UpdateBoard(finalBoard, finalVector, srcBtn, vertexIndex);
+            }
+            */
+        }
+
+        private void UpdateBoard(Board board, bool[] vector, Button srcBtn, int vertexIndex)
+        {
+            if (vector[vertexIndex])
+            {
+                vector[vertexIndex] = false;
                 srcBtn.BackColor = EmptyColor;
             }
             else
             {
-                initialVector[vertexIndex] = true;
-                srcBtn.BackColor = OccupiedColor;
+                vector[vertexIndex] = true;
+                srcBtn.BackColor = board.OccupiedColor;
             }
         }
+
+        //-------------------------------------------------------//
 
         private int CountCheckers(bool[] vector)
         {
@@ -254,18 +233,13 @@ namespace OriginalIQTestFormApp
 
         private void radioButton_advanced_CheckedChanged(object sender, EventArgs e)
         {
-            panel2.Visible = radioButton_advanced.Checked;
+            finalBoard.Panel.Visible = radioButton_advanced.Checked;
             mode = radioButton_advanced.Checked ? 2 : 1;
         }
 
         private void radioButton_classic_CheckedChanged(object sender, EventArgs e)
         {
             mode = radioButton_classic.Checked ? 1 : 2;
-        }
-
-        private void timer_solve_Tick(object sender, EventArgs e)
-        {
-            EnableProgressBar();
         }
 
         //-------------------Solve Background worker--------------------------//

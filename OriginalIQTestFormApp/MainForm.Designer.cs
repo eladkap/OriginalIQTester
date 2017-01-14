@@ -28,10 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -39,25 +36,8 @@
             this.radioButton_advanced = new System.Windows.Forms.RadioButton();
             this.progressBar_solve = new System.Windows.Forms.ProgressBar();
             this.btn_solve = new System.Windows.Forms.Button();
-            this.timer_solve = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // panel1
-            // 
-            this.panel1.BackColor = System.Drawing.Color.Silver;
-            this.panel1.Location = new System.Drawing.Point(39, 159);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(500, 300);
-            this.panel1.TabIndex = 0;
-            // 
-            // panel2
-            // 
-            this.panel2.BackColor = System.Drawing.Color.Silver;
-            this.panel2.Location = new System.Drawing.Point(571, 159);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(500, 300);
-            this.panel2.TabIndex = 0;
             // 
             // pictureBox1
             // 
@@ -92,13 +72,11 @@
             // radioButton_classic
             // 
             this.radioButton_classic.AutoSize = true;
-            this.radioButton_classic.Checked = true;
             this.radioButton_classic.Font = new System.Drawing.Font("Century", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.radioButton_classic.Location = new System.Drawing.Point(39, 496);
             this.radioButton_classic.Name = "radioButton_classic";
             this.radioButton_classic.Size = new System.Drawing.Size(91, 27);
             this.radioButton_classic.TabIndex = 3;
-            this.radioButton_classic.TabStop = true;
             this.radioButton_classic.Text = "Classic";
             this.radioButton_classic.UseVisualStyleBackColor = true;
             this.radioButton_classic.CheckedChanged += new System.EventHandler(this.radioButton_classic_CheckedChanged);
@@ -106,11 +84,13 @@
             // radioButton_advanced
             // 
             this.radioButton_advanced.AutoSize = true;
+            this.radioButton_advanced.Checked = true;
             this.radioButton_advanced.Font = new System.Drawing.Font("Century", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.radioButton_advanced.Location = new System.Drawing.Point(39, 531);
             this.radioButton_advanced.Name = "radioButton_advanced";
             this.radioButton_advanced.Size = new System.Drawing.Size(115, 27);
             this.radioButton_advanced.TabIndex = 3;
+            this.radioButton_advanced.TabStop = true;
             this.radioButton_advanced.Text = "Advanced";
             this.radioButton_advanced.UseVisualStyleBackColor = true;
             this.radioButton_advanced.CheckedChanged += new System.EventHandler(this.radioButton_advanced_CheckedChanged);
@@ -134,11 +114,6 @@
             this.btn_solve.UseVisualStyleBackColor = true;
             this.btn_solve.Click += new System.EventHandler(this.btn_solve_Click);
             // 
-            // timer_solve
-            // 
-            this.timer_solve.Interval = 1000;
-            this.timer_solve.Tick += new System.EventHandler(this.timer_solve_Tick);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -151,8 +126,6 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.panel2);
-            this.Controls.Add(this.panel1);
             this.Name = "MainForm";
             this.Text = "Original IQ Tester";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -162,9 +135,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
@@ -172,7 +142,6 @@
         private System.Windows.Forms.RadioButton radioButton_advanced;
         private System.Windows.Forms.ProgressBar progressBar_solve;
         private System.Windows.Forms.Button btn_solve;
-        private System.Windows.Forms.Timer timer_solve;
     }
 }
 
