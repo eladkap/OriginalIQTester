@@ -8,21 +8,21 @@ namespace Graphs
     {
         public List<Vertex> V;
 
-        public Graph(int n, bool[] U_init)
+        public Graph(int boardLines, bool[] U_init)
         {
             V = new List<Vertex>();
 
-            int[,] M = new int[n + 2, n + 2];
-            for (int i = 0; i < n + 2; i++)
+            int[,] M = new int[boardLines + 2, boardLines + 2];
+            for (int i = 0; i < boardLines + 2; i++)
             {
-                for (int j = 0; j < n + 2; j++)
+                for (int j = 0; j < boardLines + 2; j++)
                 {
                     M[i, j] = 0;
                 }
             }
 
             int k = 1;
-            for (int i = 1; i <= n; i++)
+            for (int i = 1; i <= boardLines; i++)
             {
                 for (int j = 1; j <= i; j++)
                 {
@@ -32,7 +32,7 @@ namespace Graphs
             }
             k = 1;
             V.Add(null);
-            for (int i = 1; i <= n; i++)
+            for (int i = 1; i <= boardLines; i++)
             {
                 for (int j = 1; j <= i; j++)
                 {

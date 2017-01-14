@@ -17,5 +17,10 @@
         public int Via { get; set; }
 
         public int To { get; set; }
+
+        public override string ToString()
+        {
+            return $"#{Phase}: From {From} via {Via} to {To}";
+        }
     }
 }

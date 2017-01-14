@@ -37,7 +37,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.radioButton_classic = new System.Windows.Forms.RadioButton();
             this.radioButton_advanced = new System.Windows.Forms.RadioButton();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.progressBar_solve = new System.Windows.Forms.ProgressBar();
             this.btn_solve = new System.Windows.Forms.Button();
             this.timer_solve = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -115,15 +115,13 @@
             this.radioButton_advanced.UseVisualStyleBackColor = true;
             this.radioButton_advanced.CheckedChanged += new System.EventHandler(this.radioButton_advanced_CheckedChanged);
             // 
-            // progressBar1
+            // progressBar_solve
             // 
-            this.progressBar1.Location = new System.Drawing.Point(416, 572);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(281, 23);
-            this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
-            this.progressBar1.TabIndex = 4;
-            this.progressBar1.UseWaitCursor = true;
-            this.progressBar1.Visible = false;
+            this.progressBar_solve.Location = new System.Drawing.Point(416, 572);
+            this.progressBar_solve.Name = "progressBar_solve";
+            this.progressBar_solve.Size = new System.Drawing.Size(281, 23);
+            this.progressBar_solve.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
+            this.progressBar_solve.TabIndex = 4;
             // 
             // btn_solve
             // 
@@ -147,7 +145,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1083, 619);
             this.Controls.Add(this.btn_solve);
-            this.Controls.Add(this.progressBar1);
+            this.Controls.Add(this.progressBar_solve);
             this.Controls.Add(this.radioButton_advanced);
             this.Controls.Add(this.radioButton_classic);
             this.Controls.Add(this.label2);
@@ -172,7 +170,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.RadioButton radioButton_classic;
         private System.Windows.Forms.RadioButton radioButton_advanced;
-        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.ProgressBar progressBar_solve;
         private System.Windows.Forms.Button btn_solve;
         private System.Windows.Forms.Timer timer_solve;
     }

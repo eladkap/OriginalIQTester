@@ -4,6 +4,8 @@ using System.Drawing;
 using System;
 using Graphs;
 using OriginalIQTesterLogic;
+using System.ComponentModel;
+using System.Threading.Tasks;
 
 namespace OriginalIQTestFormApp
 {
@@ -20,6 +22,7 @@ namespace OriginalIQTestFormApp
         static int PanelHeight = 300;
 
         int boardLines = 5;
+        int vertices;
         List<Button> Vlist;
         Dictionary<int, Button> vertexToButtonDict;
         bool[] initialVector;
@@ -29,19 +32,40 @@ namespace OriginalIQTestFormApp
 
         SolutionForm solutionForm;
 
+        private BackgroundWorker solveBackgroundworker;
+
         public MainForm()
         {
             InitializeComponent();
             panel1.Paint += new PaintEventHandler(panel_Paint);
             panel2.Paint += new PaintEventHandler(panel_Paint);
             vertexToButtonDict = new Dictionary<int, Button>();
+            vertices = CalculateVertices(boardLines);
             InitializeInitialVector();
             graph = new Graph(boardLines, initialVector);
             InitializeFinalVector();
             InitialMode();
             SetPanelSize(panel1, PanelWidth, PanelHeight);
             SetPanelSize(panel2, PanelWidth, PanelHeight);
+            DisableProgressBar();
+            solveBackgroundworker = new BackgroundWorker();
+            solveBackgroundworker.DoWork += Solve_DoWork;
+            solveBackgroundworker.RunWorkerCompleted += SolveCompleted;
             WindowState = FormWindowState.Maximized;
+        }
+
+        private void DisableProgressBar()
+        {
+            progressBar_solve.Style = ProgressBarStyle.Continuous;
+            progressBar_solve.MarqueeAnimationSpeed = 0;
+            progressBar_solve.Hide();
+        }
+
+        private void EnableProgressBar()
+        {
+            progressBar_solve.Style = ProgressBarStyle.Marquee;
+            progressBar_solve.MarqueeAnimationSpeed = 30;
+            progressBar_solve.Show();
         }
 
         private void InitialMode()
@@ -62,7 +86,7 @@ namespace OriginalIQTestFormApp
 
         public void InitializeInitialVector()
         {
-            initialVector = new bool[CalculateVertices(boardLines) + 1];
+            initialVector = new bool[vertices + 1];
             for (int i = 0; i < initialVector.Length; i++)
             {
                 initialVector[i] = true;
@@ -71,7 +95,7 @@ namespace OriginalIQTestFormApp
 
         public void InitializeFinalVector()
         {
-            finalVector = new bool[CalculateVertices(boardLines) + 1];
+            finalVector = new bool[vertices + 1];
             for (int i = 0; i < finalVector.Length; i++)
             {
                 finalVector[i] = true;
@@ -180,36 +204,52 @@ namespace OriginalIQTestFormApp
             }
         }
 
-        private void btn_solve_Click(object sender, EventArgs e)
+        private int CountCheckers(bool[] vector)
         {
-            List<Step> stepsList = StartSolving();
-            if (stepsList == null)
+            int count = 0;
+            for (int i = 0; i < vector.Length; i++)
             {
-                ShowMessageNoSolution();
+                count += vector[i] ? 1 : 0;
             }
-            else
-            {
-                ShowSolution(stepsList);
-            }
+            return count;
         }
 
-        private List<Step> StartSolving()
+        private bool IsLegalInitialBoard()
         {
-            timer_solve.Start();
-            GameLogic gameLogic = new GameLogic(boardLines, initialVector, finalVector, mode);
-            List<Step> stepsList = gameLogic.SolveGame();
-            return stepsList;
+            return CountCheckers(initialVector) < initialVector.Length;
+        }
+
+        private void btn_solve_Click(object sender, EventArgs e)
+        {
+            if (!IsLegalInitialBoard())
+            {
+                MessageBox.Show("Illegal initial board.");
+                return;
+            }
+            StartSolving();
+        }
+
+        private void StartSolving()
+        {
+            btn_solve.Enabled = false;
+            EnableProgressBar();
+            Invoke(new Action(() => progressBar_solve.Maximum = 100));
+            Invoke(new Action(() => progressBar_solve.Value = 0));
+            Task.Run(() => solveBackgroundworker.RunWorkerAsync());
         }
 
         private void ShowMessageNoSolution()
         {
             MessageBox.Show("No solution exists.");
+            DisableProgressBar();
         }
 
         private void ShowSolution(List<Step> stepsList)
         {
-            solutionForm = new SolutionForm(stepsList, initialVector);
+
+            solutionForm = new SolutionForm(vertices, boardLines, stepsList, initialVector);
             solutionForm.ShowDialog();
+            solutionForm.Focus();
         }
 
         private void radioButton_advanced_CheckedChanged(object sender, EventArgs e)
@@ -225,7 +265,41 @@ namespace OriginalIQTestFormApp
 
         private void timer_solve_Tick(object sender, EventArgs e)
         {
-            progressBar1.Increment(1);
+            EnableProgressBar();
+        }
+
+        //-------------------Solve Background worker--------------------------//
+
+        private void SolveCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            progressBar_solve.Hide();
+            btn_solve.Enabled = true;
+            MessageBox.Show("Solve completed.");
+            if (!e.Cancelled)
+            {
+                List<Step> stepsList = (List<Step>)e.Result;
+                if (stepsList == null)
+                {
+                    ShowMessageNoSolution();
+                }
+                else
+                {
+                    ShowSolution(stepsList);
+                }
+            }
+        }
+
+        private void Solve_DoWork(object sender, DoWorkEventArgs e)
+        {
+            BackgroundWorker worker = sender as BackgroundWorker;
+            e.Result = Solve(worker, e);
+        }
+
+        private List<Step> Solve(BackgroundWorker worker, DoWorkEventArgs e)
+        {
+            GameLogic gameLogic = new GameLogic(boardLines, initialVector, finalVector, mode);
+            List<Step> stepsList = gameLogic.SolveGame();
+            return stepsList;
         }
     }
 }
