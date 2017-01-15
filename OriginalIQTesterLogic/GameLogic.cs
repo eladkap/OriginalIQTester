@@ -5,6 +5,7 @@ using Sat;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Windows.Forms;
 using Utilities;
 
 namespace OriginalIQTesterLogic
@@ -121,7 +122,7 @@ namespace OriginalIQTesterLogic
             }
         }
 
-        public List<Step> SolveGame(BackgroundWorker worker)
+        public List<Step> SolveGame(BackgroundWorker worker, TextBox label3)
         {
             _verticesNumber = Graph.CalculateVertices(_boardsLinesNumber);
 
@@ -174,7 +175,7 @@ namespace OriginalIQTesterLogic
             CnfFileGenerator.CreateCnfFile(_cnfInput, allCnfClauses, _variableToIdDict);
 
             // Solve formula
-            string sln = SatSolver.Solve(_cnfInput, worker);
+            string sln = SatSolver.Solve(_cnfInput, worker,label3);
 
             // Build solution
             List<Variable> path = SolutionBuilder.BuildSolution(sln, _idToVariableDict);

@@ -37,6 +37,7 @@
             this.progressBar_solve = new System.Windows.Forms.ProgressBar();
             this.btn_solve = new System.Windows.Forms.Button();
             this.btn_cancel = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -127,11 +128,19 @@
             this.btn_cancel.UseVisualStyleBackColor = true;
             this.btn_cancel.Click += new System.EventHandler(this.btn_cancel_Click);
             // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(901, 264);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(100, 20);
+            this.textBox1.TabIndex = 6;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1083, 619);
+            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.btn_cancel);
             this.Controls.Add(this.btn_solve);
             this.Controls.Add(this.progressBar_solve);
@@ -157,6 +166,7 @@
         private System.Windows.Forms.ProgressBar progressBar_solve;
         private System.Windows.Forms.Button btn_solve;
         private System.Windows.Forms.Button btn_cancel;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }
 

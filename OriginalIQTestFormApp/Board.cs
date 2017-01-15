@@ -18,6 +18,7 @@ namespace OriginalIQTestFormApp
         private static int PanelHeight = 300;
 
         private Random _rnd;
+        private int _type;
         private Color _occupiedColor;
         private int _boardLines;
         private int _vertices;
@@ -45,6 +46,7 @@ namespace OriginalIQTestFormApp
         public Board(int boardLines, Color occupiedColor, int type)
         {
             _rnd = new Random();
+            _type = type;
             _occupiedColor = occupiedColor;
             _boardLines = boardLines;
             _vertices = Graph.CalculateVertices(_boardLines);
@@ -146,17 +148,27 @@ namespace OriginalIQTestFormApp
         public int CountCheckers()
         {
             int count = 0;
-            for (int i = 0; i < Vector.Length - 1; i++)
+            for (int i = 1; i < Vector.Length; i++)
             {
                 count += Vector[i] ? 1 : 0;
             }
             return count;
         }
 
+        private bool IsEmpty()
+        {
+            return CountCheckers() == 0;
+        }
+
+        private bool IsFull()
+        {
+            return CountCheckers() == _vertices;
+        }
+
         // Legal board (initial or final) means its not full and not empty
         public bool IsLegalBoard()
         {
-            return CountCheckers() < Vector.Length - 1;
+            return !IsEmpty() && !IsFull();
         }
     }
 }

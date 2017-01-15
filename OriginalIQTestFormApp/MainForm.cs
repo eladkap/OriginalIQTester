@@ -152,13 +152,13 @@ namespace OriginalIQTestFormApp
             }
         }
 
-        //-------------------------------------------------------//  
+        //--------------------Solver-----------------------------------//  
 
         private void btn_solve_Click(object sender, EventArgs e)
         {
             if (!initialBoard.IsLegalBoard())
             {
-                MessageBox.Show($"Illegal initial board. {initialBoard.Vector.Length - 1} > {initialBoard.CountCheckers()}");
+                MessageBox.Show($"Illegal initial board.");
                 return;
             }
             if (!finalBoard.IsLegalBoard())
@@ -235,13 +235,13 @@ namespace OriginalIQTestFormApp
         private void Solve_DoWork(object sender, DoWorkEventArgs e)
         {
             BackgroundWorker worker = sender as BackgroundWorker;
-            e.Result = Solve(worker, e);
+            e.Result = Solve(worker);
         }
 
-        private List<Step> Solve(BackgroundWorker worker, DoWorkEventArgs e)
+        private List<Step> Solve(BackgroundWorker worker)
         {
             GameLogic gameLogic = new GameLogic(boardLines, initialBoard.Vector, finalBoard.Vector, mode);
-            List<Step> stepsList = gameLogic.SolveGame(solveBackgroundworker);
+            List<Step> stepsList = gameLogic.SolveGame(solveBackgroundworker, textBox1);
             return stepsList;
         }
 
@@ -257,7 +257,8 @@ namespace OriginalIQTestFormApp
                 solveBackgroundworker.CancelAsync();
                 btn_cancel.Enabled = false;
                 btn_solve.Enabled = true;
-                MessageBox.Show("Cancelled.");
+                DisableProgressBar();
+                //MessageBox.Show("Cancelled.");
             }
         }
     }
