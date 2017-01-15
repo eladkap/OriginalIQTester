@@ -36,6 +36,7 @@
             this.radioButton_advanced = new System.Windows.Forms.RadioButton();
             this.progressBar_solve = new System.Windows.Forms.ProgressBar();
             this.btn_solve = new System.Windows.Forms.Button();
+            this.btn_cancel = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -106,7 +107,7 @@
             // btn_solve
             // 
             this.btn_solve.Font = new System.Drawing.Font("Century", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_solve.Location = new System.Drawing.Point(480, 496);
+            this.btn_solve.Location = new System.Drawing.Point(416, 496);
             this.btn_solve.Name = "btn_solve";
             this.btn_solve.Size = new System.Drawing.Size(135, 48);
             this.btn_solve.TabIndex = 5;
@@ -114,11 +115,24 @@
             this.btn_solve.UseVisualStyleBackColor = true;
             this.btn_solve.Click += new System.EventHandler(this.btn_solve_Click);
             // 
+            // btn_cancel
+            // 
+            this.btn_cancel.Enabled = false;
+            this.btn_cancel.Font = new System.Drawing.Font("Century", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_cancel.Location = new System.Drawing.Point(562, 496);
+            this.btn_cancel.Name = "btn_cancel";
+            this.btn_cancel.Size = new System.Drawing.Size(135, 48);
+            this.btn_cancel.TabIndex = 5;
+            this.btn_cancel.Text = "Cancel";
+            this.btn_cancel.UseVisualStyleBackColor = true;
+            this.btn_cancel.Click += new System.EventHandler(this.btn_cancel_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1083, 619);
+            this.Controls.Add(this.btn_cancel);
             this.Controls.Add(this.btn_solve);
             this.Controls.Add(this.progressBar_solve);
             this.Controls.Add(this.radioButton_advanced);
@@ -142,6 +156,7 @@
         private System.Windows.Forms.RadioButton radioButton_advanced;
         private System.Windows.Forms.ProgressBar progressBar_solve;
         private System.Windows.Forms.Button btn_solve;
+        private System.Windows.Forms.Button btn_cancel;
     }
 }
 

@@ -53,7 +53,7 @@ namespace OriginalIQTestFormApp
             _vertexToButtonDict = new Dictionary<int, Button>();
             _verticeslist = new List<Button>();
             Vector = InitializeVector(type);
-            BuildGraphVertices(Vector);
+            BuildGraphVertices();
         }
 
         private bool[] InitializeVector(int type)
@@ -73,7 +73,7 @@ namespace OriginalIQTestFormApp
             panel.Size = new Size(PanelWidth, PanelHeight);
         }
 
-        public void BuildGraphVertices(bool[] vector)
+        public void BuildGraphVertices()
         {
             Pen pen = new Pen(Color.Black, 3);
             Font font = new Font("Arial", IndexFont, FontStyle.Regular);
@@ -91,7 +91,7 @@ namespace OriginalIQTestFormApp
                 {
                     Button btn = new Button();
 
-                    btn.BackColor = vector[k] ? _occupiedColor : EmptyColor;
+                    btn.BackColor = Vector[k] ? _occupiedColor : EmptyColor;
                     btn.Width = ButtonSize;
                     btn.Height = ButtonSize;
 
@@ -146,7 +146,7 @@ namespace OriginalIQTestFormApp
         public int CountCheckers()
         {
             int count = 0;
-            for (int i = 0; i < Vector.Length; i++)
+            for (int i = 0; i < Vector.Length - 1; i++)
             {
                 count += Vector[i] ? 1 : 0;
             }
@@ -156,7 +156,7 @@ namespace OriginalIQTestFormApp
         // Legal board (initial or final) means its not full and not empty
         public bool IsLegalBoard()
         {
-            return CountCheckers() < Vector.Length;
+            return CountCheckers() < Vector.Length - 1;
         }
     }
 }

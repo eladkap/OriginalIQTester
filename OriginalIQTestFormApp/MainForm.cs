@@ -27,18 +27,21 @@ namespace OriginalIQTestFormApp
         public MainForm()
         {
             InitializeComponent();
-
             vertices = Graph.CalculateVertices(boardLines);
-
             SetInitialBoard();
             SetFinalBoard();
-
-            SetMode();
+            SetDefaultMode();
             DisableProgressBar();
+            CreateSolveBackgroundWorker();
+            WindowState = FormWindowState.Maximized;
+        }
+
+        private void CreateSolveBackgroundWorker()
+        {
             solveBackgroundworker = new BackgroundWorker();
             solveBackgroundworker.DoWork += Solve_DoWork;
             solveBackgroundworker.RunWorkerCompleted += SolveCompleted;
-            WindowState = FormWindowState.Maximized;
+            solveBackgroundworker.WorkerSupportsCancellation = true;
         }
 
         private Board SetBoard(Color occupiedColor, Point location, int type)
@@ -78,7 +81,7 @@ namespace OriginalIQTestFormApp
             progressBar_solve.Show();
         }
 
-        private void SetMode()
+        private void SetDefaultMode()
         {
             mode = 1; // classic
         }
@@ -155,7 +158,7 @@ namespace OriginalIQTestFormApp
         {
             if (!initialBoard.IsLegalBoard())
             {
-                MessageBox.Show("Illegal initial board.");
+                MessageBox.Show($"Illegal initial board. {initialBoard.Vector.Length - 1} > {initialBoard.CountCheckers()}");
                 return;
             }
             if (!finalBoard.IsLegalBoard())
@@ -169,6 +172,7 @@ namespace OriginalIQTestFormApp
         private void StartSolving()
         {
             btn_solve.Enabled = false;
+            btn_cancel.Enabled = true;
             EnableProgressBar();
             Invoke(new Action(() => progressBar_solve.Maximum = 100));
             Invoke(new Action(() => progressBar_solve.Value = 0));
@@ -205,9 +209,17 @@ namespace OriginalIQTestFormApp
         {
             progressBar_solve.Hide();
             btn_solve.Enabled = true;
-            MessageBox.Show("Solve completed.");
-            if (!e.Cancelled)
+            if (e.Cancelled)
             {
+                MessageBox.Show("Solving cancelled.");
+            }
+            else if (e.Error != null)
+            {
+                MessageBox.Show("Error in solving. process aborted.");
+            }
+            else
+            {
+                MessageBox.Show("Solve completed.");
                 List<Step> stepsList = (List<Step>)e.Result;
                 if (stepsList == null)
                 {
@@ -229,8 +241,24 @@ namespace OriginalIQTestFormApp
         private List<Step> Solve(BackgroundWorker worker, DoWorkEventArgs e)
         {
             GameLogic gameLogic = new GameLogic(boardLines, initialBoard.Vector, finalBoard.Vector, mode);
-            List<Step> stepsList = gameLogic.SolveGame();
+            List<Step> stepsList = gameLogic.SolveGame(solveBackgroundworker);
             return stepsList;
+        }
+
+        private void btn_cancel_Click(object sender, EventArgs e)
+        {
+            CancelSolving();
+        }
+
+        private void CancelSolving()
+        {
+            if (solveBackgroundworker.IsBusy)
+            {
+                solveBackgroundworker.CancelAsync();
+                btn_cancel.Enabled = false;
+                btn_solve.Enabled = true;
+                MessageBox.Show("Cancelled.");
+            }
         }
     }
 }
