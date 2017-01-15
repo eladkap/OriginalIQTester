@@ -110,5 +110,15 @@ namespace Graphs
                 Console.WriteLine(vertex);
             }
         }
+
+        public static int CalculateVertices(int boardLines)
+        {
+            int sum = 0;
+            for (int i = 1; i <= boardLines; i++)
+            {
+                sum += i;
+            }
+            return sum;
+        }
     }
 }

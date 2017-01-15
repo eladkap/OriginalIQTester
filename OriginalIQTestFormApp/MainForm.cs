@@ -15,8 +15,6 @@ namespace OriginalIQTestFormApp
 
         int boardLines = 5;
         int vertices;
-        bool[] initialVector;
-        bool[] finalVector;
         int mode;
 
         Board initialBoard;
@@ -30,7 +28,7 @@ namespace OriginalIQTestFormApp
         {
             InitializeComponent();
 
-            vertices = CalculateVertices(boardLines);
+            vertices = Graph.CalculateVertices(boardLines);
 
             SetInitialBoard();
             SetFinalBoard();
@@ -43,9 +41,9 @@ namespace OriginalIQTestFormApp
             WindowState = FormWindowState.Maximized;
         }
 
-        private Board SetBoard(bool[] vector, Color occupiedColor, Point location)
+        private Board SetBoard(Color occupiedColor, Point location, int type)
         {
-            Board board = new Board(boardLines, occupiedColor, vector);
+            Board board = new Board(boardLines, occupiedColor, type);
             board.Panel.Paint += new PaintEventHandler(panel_Paint);
             board.Panel.Location = new Point(location.X, location.Y);
             foreach (var vertexButton in board.VertexButtonsList)
@@ -58,14 +56,12 @@ namespace OriginalIQTestFormApp
 
         private void SetInitialBoard()
         {
-            initialVector = InitializeVector(true);
-            initialBoard = SetBoard(initialVector, Color.Blue, new Point(40, 160));
+            initialBoard = SetBoard(Color.Blue, new Point(40, 160), 1);
         }
 
         private void SetFinalBoard()
         {
-            finalVector = InitializeVector(false);
-            finalBoard = SetBoard(finalVector, Color.Green, new Point(570, 160));
+            finalBoard = SetBoard(Color.Green, new Point(570, 160), 2);
         }
 
         private void DisableProgressBar()
@@ -97,16 +93,6 @@ namespace OriginalIQTestFormApp
             return vector;
         }
 
-        private int CalculateVertices(int boardLines)
-        {
-            int sum = 0;
-            for (int i = 1; i <= boardLines; i++)
-            {
-                sum += i;
-            }
-            return sum;
-        }
-
         //----------------------Board--------------------------------//
 
         protected void panel_Paint(object sender, PaintEventArgs e)
@@ -114,17 +100,11 @@ namespace OriginalIQTestFormApp
             Panel panel = (Panel)sender;
             if (initialBoard.Panel == panel)
             {
-                initialVector = InitializeVector(true);
-                //initialBoard.BuildGraphVertices(initialVector);
-                initialBoard.Vector = initialVector;
-                initialBoard.BuildGraphEdges(e, initialVector);
+                initialBoard.BuildGraphEdges(e);
             }
             else if (finalBoard.Panel == panel)
             {
-                finalVector = InitializeVector(false);
-                //finalBoard.BuildGraphVertices(finalVector);
-                finalBoard.Vector = finalVector;
-                finalBoard.BuildGraphEdges(e, finalVector);
+                finalBoard.BuildGraphEdges(e);
             }
         }
 
@@ -151,20 +131,8 @@ namespace OriginalIQTestFormApp
         {
             Button srcBtn = (Button)sender;
             Board board = GetBoardByButton(srcBtn);
-
             int vertexIndex = int.Parse(srcBtn.Text);
-            MessageBox.Show($"{vertexIndex} {board.OccupiedColor} {board.Vector[vertexIndex]}");
-            board.Update(vertexIndex);
-            /*
-            if (board == initialBoard)
-            {
-                UpdateBoard(initialBoard, initialVector, srcBtn, vertexIndex);
-            }
-            else if (board == finalBoard)
-            {
-                UpdateBoard(finalBoard, finalVector, srcBtn, vertexIndex);
-            }
-            */
+            board.ChangeState(vertexIndex);
         }
 
         private void UpdateBoard(Board board, bool[] vector, Button srcBtn, int vertexIndex)
@@ -181,28 +149,18 @@ namespace OriginalIQTestFormApp
             }
         }
 
-        //-------------------------------------------------------//
-
-        private int CountCheckers(bool[] vector)
-        {
-            int count = 0;
-            for (int i = 0; i < vector.Length; i++)
-            {
-                count += vector[i] ? 1 : 0;
-            }
-            return count;
-        }
-
-        private bool IsLegalInitialBoard()
-        {
-            return CountCheckers(initialVector) < initialVector.Length;
-        }
+        //-------------------------------------------------------//  
 
         private void btn_solve_Click(object sender, EventArgs e)
         {
-            if (!IsLegalInitialBoard())
+            if (!initialBoard.IsLegalBoard())
             {
                 MessageBox.Show("Illegal initial board.");
+                return;
+            }
+            if (!finalBoard.IsLegalBoard())
+            {
+                MessageBox.Show("Illegal final board.");
                 return;
             }
             StartSolving();
@@ -225,8 +183,7 @@ namespace OriginalIQTestFormApp
 
         private void ShowSolution(List<Step> stepsList)
         {
-
-            solutionForm = new SolutionForm(vertices, boardLines, stepsList, initialVector);
+            solutionForm = new SolutionForm(vertices, boardLines, stepsList, initialBoard.Vector);
             solutionForm.ShowDialog();
             solutionForm.Focus();
         }
@@ -271,7 +228,7 @@ namespace OriginalIQTestFormApp
 
         private List<Step> Solve(BackgroundWorker worker, DoWorkEventArgs e)
         {
-            GameLogic gameLogic = new GameLogic(boardLines, initialVector, finalVector, mode);
+            GameLogic gameLogic = new GameLogic(boardLines, initialBoard.Vector, finalBoard.Vector, mode);
             List<Step> stepsList = gameLogic.SolveGame();
             return stepsList;
         }

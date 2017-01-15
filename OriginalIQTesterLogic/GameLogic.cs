@@ -120,19 +120,9 @@ namespace OriginalIQTesterLogic
             }
         }
 
-        private int CalculateVerticesNumber()
-        {
-            int verticesNum = 0;
-            for (int i = 1; i <= _boardsLinesNumber; i++)
-            {
-                verticesNum += i;
-            }
-            return verticesNum;
-        }
-
         public List<Step> SolveGame()
         {
-            _verticesNumber = CalculateVerticesNumber();
+            _verticesNumber = Graph.CalculateVertices(_boardsLinesNumber);
 
             // Build vertices graph
             Graph G = BuildGraph(_boardsLinesNumber, _U_init);

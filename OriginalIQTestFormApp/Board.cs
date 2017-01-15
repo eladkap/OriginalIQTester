@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using System.Collections.Generic;
 using Graphs;
+using System;
 
 namespace OriginalIQTestFormApp
 {
@@ -16,8 +17,10 @@ namespace OriginalIQTestFormApp
         private static int PanelWidth = 400;
         private static int PanelHeight = 300;
 
+        private Random _rnd;
         private Color _occupiedColor;
         private int _boardLines;
+        private int _vertices;
         private Graph _graph;
         private Panel _panel;
         private List<Button> _verticeslist;
@@ -38,16 +41,31 @@ namespace OriginalIQTestFormApp
 
         public bool[] Vector { get; set; }
 
-        public Board(int boardLines, Color occupiedColor, bool[] vector)
+        // type: 1 - initial board or 2 - final board
+        public Board(int boardLines, Color occupiedColor, int type)
         {
+            _rnd = new Random();
             _occupiedColor = occupiedColor;
             _boardLines = boardLines;
+            _vertices = Graph.CalculateVertices(_boardLines);
             _panel = new Panel();
             SetPanelSize(_panel, PanelWidth, PanelHeight);
             _vertexToButtonDict = new Dictionary<int, Button>();
             _verticeslist = new List<Button>();
-            Vector = vector;
-            BuildGraphVertices(vector);
+            Vector = InitializeVector(type);
+            BuildGraphVertices(Vector);
+        }
+
+        private bool[] InitializeVector(int type)
+        {
+            bool[] vector = new bool[_vertices + 1];
+            for (int i = 0; i < vector.Length; i++)
+            {
+                vector[i] = (type == 1);
+            }
+            int index = _rnd.Next(1, _vertices + 1);
+            vector[index] = (type == 2);
+            return vector;
         }
 
         private void SetPanelSize(Panel panel, int panelWidth, int panelHeight)
@@ -95,9 +113,9 @@ namespace OriginalIQTestFormApp
                 btnY += deltaH;
             }
         }
-        public void BuildGraphEdges(PaintEventArgs e, bool[] vector)
+        public void BuildGraphEdges(PaintEventArgs e)
         {
-            _graph = new Graph(_boardLines, vector);
+            _graph = new Graph(_boardLines, Vector);
             for (int i = 1; i < _graph.V.Count; i++)
             {
                 for (int j = 1; j < _graph.V.Count; j++)
@@ -119,10 +137,26 @@ namespace OriginalIQTestFormApp
             }
         }
 
-        public void Update(int vertexIndex)
+        public void ChangeState(int vertexIndex)
         {
             Vector[vertexIndex] = !Vector[vertexIndex];
             _verticeslist[vertexIndex - 1].BackColor = Vector[vertexIndex] ? _occupiedColor : EmptyColor;
+        }
+
+        public int CountCheckers()
+        {
+            int count = 0;
+            for (int i = 0; i < Vector.Length; i++)
+            {
+                count += Vector[i] ? 1 : 0;
+            }
+            return count;
+        }
+
+        // Legal board (initial or final) means its not full and not empty
+        public bool IsLegalBoard()
+        {
+            return CountCheckers() < Vector.Length;
         }
     }
 }
