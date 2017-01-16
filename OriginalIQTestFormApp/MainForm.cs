@@ -6,12 +6,15 @@ using Graphs;
 using OriginalIQTesterLogic;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using Utilities;
 
 namespace OriginalIQTestFormApp
 {
     public partial class MainForm : Form
     {
         private static Color EmptyColor = Color.White;
+
+        private Logger _logger;
 
         int boardLines = 5;
         int vertices;
@@ -33,7 +36,21 @@ namespace OriginalIQTestFormApp
             SetDefaultMode();
             DisableProgressBar();
             CreateSolveBackgroundWorker();
+            SetLogger();
             WindowState = FormWindowState.Maximized;
+        }
+
+        private void SetLogger()
+        {
+            _logger = new Logger();
+            _logger.LogArrived += LogArrivedHandler;
+        }
+
+        private void LogArrivedHandler(object o, LogEventArgs e)
+        {
+            txt_log.AppendText(_logger.GetLastMessage() + "\n");
+            txt_log.SelectionStart = txt_log.TextLength;
+            txt_log.ScrollToCaret();
         }
 
         private void CreateSolveBackgroundWorker()
@@ -209,7 +226,7 @@ namespace OriginalIQTestFormApp
         {
             progressBar_solve.Hide();
             btn_solve.Enabled = true;
-            if (e.Cancelled)
+            if (e.Result == null) // e.Cancelled
             {
                 MessageBox.Show("Solving cancelled.");
             }
@@ -219,9 +236,9 @@ namespace OriginalIQTestFormApp
             }
             else
             {
-                MessageBox.Show("Solve completed.");
+                MessageBox.Show("Solving completed.");
                 List<Step> stepsList = (List<Step>)e.Result;
-                if (stepsList == null)
+                if (stepsList.Count == 0)
                 {
                     ShowMessageNoSolution();
                 }
@@ -230,6 +247,8 @@ namespace OriginalIQTestFormApp
                     ShowSolution(stepsList);
                 }
             }
+            _logger.ClearLogger();
+            txt_log.Clear();
         }
 
         private void Solve_DoWork(object sender, DoWorkEventArgs e)
@@ -241,7 +260,7 @@ namespace OriginalIQTestFormApp
         private List<Step> Solve(BackgroundWorker worker)
         {
             GameLogic gameLogic = new GameLogic(boardLines, initialBoard.Vector, finalBoard.Vector, mode);
-            List<Step> stepsList = gameLogic.SolveGame(solveBackgroundworker, textBox1);
+            List<Step> stepsList = gameLogic.SolveGame(solveBackgroundworker, _logger);
             return stepsList;
         }
 
@@ -258,7 +277,6 @@ namespace OriginalIQTestFormApp
                 btn_cancel.Enabled = false;
                 btn_solve.Enabled = true;
                 DisableProgressBar();
-                //MessageBox.Show("Cancelled.");
             }
         }
     }

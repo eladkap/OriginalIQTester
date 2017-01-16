@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using System.Windows.Forms;
 using System.Threading;
 using Utilities;
 
@@ -9,7 +8,7 @@ namespace Sat
 {
     public class SatSolver
     {
-        public static string Solve(string cnfInput, BackgroundWorker worker, TextBox label3)
+        public static string Solve(string cnfInput, BackgroundWorker worker, Logger logger)
         {
             // full path of python interpreter  
             string python = Constants.PYTHON_INTERPRETER_FULL_PATH;
@@ -40,7 +39,7 @@ namespace Sat
             // start process 
             pythonProcess.Start();
 
-            label3.Text = "Busy";
+            logger.WriteLine("Solver is busy...");
             // check for cancellation
             bool isBusy = true;
             while (isBusy)
@@ -56,13 +55,13 @@ namespace Sat
 
                 if (worker.CancellationPending)
                 {
-                    label3.Text = "Cancel";
+                    logger.WriteLine("Solver Cancelled.");
                     pythonProcess.Kill();
                     break;
                 }
-                Thread.Sleep(1000);
+                Thread.Sleep(500);
             }
-            label3.Text = "finished";
+            logger.WriteLine("Solver finished.");
 
 
             // Read the standard output of the app we called.  

@@ -63,11 +63,11 @@ namespace Sat
 
         public static List<Step> RetrieveSolution(List<Variable> path)
         {
+            List<Step> stepsList = new List<Step>();
             if (path == null)
             {
-                return null;
+                return stepsList;
             }
-            List<Step> stepsList = new List<Step>();
             foreach (var variable in path)
             {
                 if (variable.Prefix.Equals("X"))

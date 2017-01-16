@@ -103,6 +103,10 @@
       <Project>{CE1AB746-F880-42CD-8664-C1F78DBB4C28}</Project>
       <Name>OriginalIQTesterLogic</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Utilities\Utilities.csproj">
+      <Project>{AC033D85-7265-43E7-94CF-92BA2FFD0929}</Project>
+      <Name>Utilities</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
