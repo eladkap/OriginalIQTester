@@ -30,7 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SolutionForm));
-            this.panel1 = new System.Windows.Forms.Panel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.listBox_stepsList = new System.Windows.Forms.ListBox();
             this.btn_play = new System.Windows.Forms.Button();
@@ -40,17 +39,11 @@
             this.btn_last = new System.Windows.Forms.Button();
             this.btn_first = new System.Windows.Forms.Button();
             this.timer_play = new System.Windows.Forms.Timer(this.components);
-            this.label1 = new System.Windows.Forms.Label();
+            this.lbl_stateIndex = new System.Windows.Forms.Label();
             this.progressBar_steps = new System.Windows.Forms.ProgressBar();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // panel1
-            // 
-            this.panel1.Location = new System.Drawing.Point(352, 109);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(500, 300);
-            this.panel1.TabIndex = 0;
             // 
             // pictureBox1
             // 
@@ -75,7 +68,7 @@
             // 
             this.btn_play.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_play.BackgroundImage")));
             this.btn_play.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btn_play.Location = new System.Drawing.Point(538, 474);
+            this.btn_play.Location = new System.Drawing.Point(503, 474);
             this.btn_play.Name = "btn_play";
             this.btn_play.Size = new System.Drawing.Size(50, 50);
             this.btn_play.TabIndex = 4;
@@ -86,7 +79,7 @@
             // 
             this.btn_pause.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_pause.BackgroundImage")));
             this.btn_pause.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btn_pause.Location = new System.Drawing.Point(611, 474);
+            this.btn_pause.Location = new System.Drawing.Point(576, 474);
             this.btn_pause.Name = "btn_pause";
             this.btn_pause.Size = new System.Drawing.Size(50, 50);
             this.btn_pause.TabIndex = 4;
@@ -97,7 +90,7 @@
             // 
             this.btn_next.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_next.BackgroundImage")));
             this.btn_next.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btn_next.Location = new System.Drawing.Point(682, 474);
+            this.btn_next.Location = new System.Drawing.Point(713, 474);
             this.btn_next.Name = "btn_next";
             this.btn_next.Size = new System.Drawing.Size(50, 50);
             this.btn_next.TabIndex = 4;
@@ -108,7 +101,7 @@
             // 
             this.btn_previous.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_previous.BackgroundImage")));
             this.btn_previous.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btn_previous.Location = new System.Drawing.Point(762, 474);
+            this.btn_previous.Location = new System.Drawing.Point(646, 474);
             this.btn_previous.Name = "btn_previous";
             this.btn_previous.Size = new System.Drawing.Size(50, 50);
             this.btn_previous.TabIndex = 4;
@@ -119,7 +112,7 @@
             // 
             this.btn_last.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_last.BackgroundImage")));
             this.btn_last.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btn_last.Location = new System.Drawing.Point(454, 474);
+            this.btn_last.Location = new System.Drawing.Point(419, 474);
             this.btn_last.Name = "btn_last";
             this.btn_last.Size = new System.Drawing.Size(50, 50);
             this.btn_last.TabIndex = 4;
@@ -130,7 +123,7 @@
             // 
             this.btn_first.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btn_first.BackgroundImage")));
             this.btn_first.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btn_first.Location = new System.Drawing.Point(376, 474);
+            this.btn_first.Location = new System.Drawing.Point(341, 474);
             this.btn_first.Name = "btn_first";
             this.btn_first.Size = new System.Drawing.Size(50, 50);
             this.btn_first.TabIndex = 4;
@@ -142,30 +135,39 @@
             this.timer_play.Interval = 1000;
             this.timer_play.Tick += new System.EventHandler(this.timer_play_Tick);
             // 
-            // label1
+            // lbl_stateIndex
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.label1.Location = new System.Drawing.Point(83, 474);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(51, 37);
-            this.label1.TabIndex = 5;
-            this.label1.Text = "#1";
+            this.lbl_stateIndex.AutoSize = true;
+            this.lbl_stateIndex.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.lbl_stateIndex.Location = new System.Drawing.Point(83, 474);
+            this.lbl_stateIndex.Name = "lbl_stateIndex";
+            this.lbl_stateIndex.Size = new System.Drawing.Size(51, 37);
+            this.lbl_stateIndex.TabIndex = 5;
+            this.lbl_stateIndex.Text = "#1";
             // 
             // progressBar_steps
             // 
-            this.progressBar_steps.Location = new System.Drawing.Point(376, 425);
+            this.progressBar_steps.Location = new System.Drawing.Point(352, 426);
             this.progressBar_steps.Name = "progressBar_steps";
-            this.progressBar_steps.Size = new System.Drawing.Size(436, 23);
+            this.progressBar_steps.Size = new System.Drawing.Size(400, 23);
             this.progressBar_steps.TabIndex = 6;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(819, 109);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(547, 303);
+            this.textBox1.TabIndex = 7;
             // 
             // SolutionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(954, 559);
+            this.ClientSize = new System.Drawing.Size(1400, 769);
+            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.progressBar_steps);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.lbl_stateIndex);
             this.Controls.Add(this.btn_previous);
             this.Controls.Add(this.btn_next);
             this.Controls.Add(this.btn_pause);
@@ -174,7 +176,6 @@
             this.Controls.Add(this.btn_play);
             this.Controls.Add(this.listBox_stepsList);
             this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.panel1);
             this.Name = "SolutionForm";
             this.Text = "Original IQ Tester: Solution";
             this.WindowState = System.Windows.Forms.FormWindowState.Minimized;
@@ -185,8 +186,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.ListBox listBox_stepsList;
         private System.Windows.Forms.Button btn_play;
@@ -196,7 +195,8 @@
         private System.Windows.Forms.Button btn_last;
         private System.Windows.Forms.Button btn_first;
         private System.Windows.Forms.Timer timer_play;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lbl_stateIndex;
         private System.Windows.Forms.ProgressBar progressBar_steps;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }

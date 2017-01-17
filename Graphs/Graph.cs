@@ -8,7 +8,7 @@ namespace Graphs
     {
         public List<Vertex> V;
 
-        public Graph(int boardLines, bool[] U_init)
+        public Graph(int boardLines, bool[] vector)
         {
             V = new List<Vertex>();
 
@@ -37,7 +37,7 @@ namespace Graphs
                 for (int j = 1; j <= i; j++)
                 {
                     int[] neighborsArray = CreateNeighbors(M, i, j);
-                    Vertex vertex = new Vertex(k, U_init[i], neighborsArray);
+                    Vertex vertex = new Vertex(k, vector[k], neighborsArray);
                     k++;
                     V.Add(vertex);
                 }
@@ -66,21 +66,11 @@ namespace Graphs
             return AreAlignedNeighbors(i, j, k) && V[i].HasChecker && V[j].HasChecker && !V[k].HasChecker;
         }
 
-        public bool Move(int i, int j, int k)
+        public void PerformStep(Step step)
         {
-            if (AreAlignedNeighbors(i, j, k))
-            {
-                IsLegalMove(i, j, k);
-                return true;
-            }
-            return false;
-        }
-
-        public void UpdateGraphAfterMove(int i, int j, int k)
-        {
-            V[i].HasChecker = false;
-            V[j].HasChecker = false;
-            V[k].HasChecker = true;
+            V[step.From].HasChecker = false;
+            V[step.Via].HasChecker = false;
+            V[step.To].HasChecker = true;
         }
 
         public List<bool> GetVerticesState()
@@ -119,6 +109,23 @@ namespace Graphs
                 sum += i;
             }
             return sum;
+        }
+
+        public override string ToString()
+        {
+            string str = "";
+            for (int i = 1; i < V.Count; i++)
+            {
+                if (V[i].HasChecker)
+                {
+                    str += $"({i},T) ";
+                }
+                else
+                {
+                    str += $"({i},F) ";
+                }
+            }
+            return str;
         }
     }
 }

@@ -22,9 +22,9 @@ namespace OriginalIQTestFormApp
         private Color _occupiedColor;
         private int _boardLines;
         private int _vertices;
-        private Graph _graph;
+        public Graph _graph; // TODO: change to private
         private Panel _panel;
-        private List<Button> _verticeslist;
+        public List<Button> _verticeslist; // TODO: change to private
         private Dictionary<int, Button> _vertexToButtonDict;
 
         public Panel Panel { get { return _panel; } }
@@ -51,11 +51,17 @@ namespace OriginalIQTestFormApp
             _boardLines = boardLines;
             _vertices = Graph.CalculateVertices(_boardLines);
             _panel = new Panel();
-            SetPanelSize(_panel, PanelWidth, PanelHeight);
+            SetPanel();
             _vertexToButtonDict = new Dictionary<int, Button>();
             _verticeslist = new List<Button>();
             Vector = InitializeVector(type);
             BuildGraphVertices();
+        }
+
+        private void SetPanel()
+        {
+            _panel.BackColor = Color.Azure;
+            SetPanelSize(_panel, PanelWidth, PanelHeight);
         }
 
         private bool[] InitializeVector(int type)
@@ -117,7 +123,7 @@ namespace OriginalIQTestFormApp
         }
         public void BuildGraphEdges(PaintEventArgs e)
         {
-            _graph = new Graph(_boardLines, Vector);
+            _graph = new Graph(_boardLines, Vector); // must be in the c'tor
             for (int i = 1; i < _graph.V.Count; i++)
             {
                 for (int j = 1; j < _graph.V.Count; j++)
@@ -169,6 +175,37 @@ namespace OriginalIQTestFormApp
         public bool IsLegalBoard()
         {
             return !IsEmpty() && !IsFull();
+        }
+
+        public void SetBoardState(Graph graph)
+        {
+            for (int i = 1; i < graph.V.Count; i++)
+            {
+                Vertex vertex = graph.V[i];
+                if (vertex.HasChecker)
+                {
+                    _verticeslist[i - 1].BackColor = _occupiedColor;
+                }
+                else
+                {
+                    _verticeslist[i - 1].BackColor = EmptyColor;
+                }
+            }
+        }
+
+        public void SetBoardStateByVector(bool[] vector)
+        {
+            for (int i = 1; i < vector.Length; i++)
+            {
+                if (vector[i])
+                {
+                    _verticeslist[i - 1].BackColor = _occupiedColor;
+                }
+                else
+                {
+                    _verticeslist[i - 1].BackColor = EmptyColor;
+                }
+            }
         }
     }
 }

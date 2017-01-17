@@ -37,7 +37,7 @@ namespace OriginalIQTestFormApp
             DisableProgressBar();
             CreateSolveBackgroundWorker();
             SetLogger();
-            WindowState = FormWindowState.Maximized;
+            //WindowState = FormWindowState.Maximized;
         }
 
         private void SetLogger()
@@ -48,9 +48,12 @@ namespace OriginalIQTestFormApp
 
         private void LogArrivedHandler(object o, LogEventArgs e)
         {
-            txt_log.AppendText(_logger.GetLastMessage() + "\n");
-            txt_log.SelectionStart = txt_log.TextLength;
-            txt_log.ScrollToCaret();
+            Invoke(new Action(() =>
+            {
+                txt_log.AppendText(_logger.GetLastMessage() + "\n");
+                txt_log.SelectionStart = txt_log.TextLength;
+                txt_log.ScrollToCaret();
+            }));
         }
 
         private void CreateSolveBackgroundWorker()
@@ -206,7 +209,6 @@ namespace OriginalIQTestFormApp
         {
             solutionForm = new SolutionForm(vertices, boardLines, stepsList, initialBoard.Vector);
             solutionForm.ShowDialog();
-            solutionForm.Focus();
         }
 
         private void radioButton_advanced_CheckedChanged(object sender, EventArgs e)
@@ -224,8 +226,8 @@ namespace OriginalIQTestFormApp
 
         private void SolveCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            progressBar_solve.Hide();
-            btn_solve.Enabled = true;
+            Invoke(new Action(() => progressBar_solve.Hide()));
+            Invoke(new Action(() => btn_solve.Enabled = true));
             if (e.Result == null) // e.Cancelled
             {
                 MessageBox.Show("Solving cancelled.");
@@ -248,7 +250,7 @@ namespace OriginalIQTestFormApp
                 }
             }
             _logger.ClearLogger();
-            txt_log.Clear();
+            Invoke(new Action(() => txt_log.Clear()));
         }
 
         private void Solve_DoWork(object sender, DoWorkEventArgs e)

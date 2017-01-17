@@ -27,22 +27,10 @@ namespace Graphs
         bool IsLegalMove(int i, int j, int k);
 
         /// <summary>
-        /// Performs legal move: transfer checker from position i
-        /// to position k, and clear position j
+        /// Perform step and update the graph after the step
         /// </summary>
-        /// <param name="i">Source position</param>
-        /// <param name="j">Via position</param>
-        /// <param name="k">Destination position</param>
-        /// <returns>True if move is legal and false otherwise</returns>
-        bool Move(int i, int j, int k);
-
-        /// <summary>
-        /// Updates the graph after the move was performed
-        /// </summary>
-        /// <param name="i">Source position</param>
-        /// <param name="j">Via position</param>
-        /// <param name="k">Destination position</param>
-        void UpdateGraphAfterMove(int i, int j, int k);
+        /// <param name="step">step</param>
+        void PerformStep(Step step);
 
         /// <summary>
         /// Returns list of states of the vertices (has checker or not)
