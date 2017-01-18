@@ -41,7 +41,6 @@
             this.timer_play = new System.Windows.Forms.Timer(this.components);
             this.lbl_stateIndex = new System.Windows.Forms.Label();
             this.progressBar_steps = new System.Windows.Forms.ProgressBar();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -152,20 +151,11 @@
             this.progressBar_steps.Size = new System.Drawing.Size(400, 23);
             this.progressBar_steps.TabIndex = 6;
             // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(819, 109);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(547, 303);
-            this.textBox1.TabIndex = 7;
-            // 
             // SolutionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1400, 769);
-            this.Controls.Add(this.textBox1);
+            this.ClientSize = new System.Drawing.Size(1362, 741);
             this.Controls.Add(this.progressBar_steps);
             this.Controls.Add(this.lbl_stateIndex);
             this.Controls.Add(this.btn_previous);
@@ -197,6 +187,5 @@
         private System.Windows.Forms.Timer timer_play;
         private System.Windows.Forms.Label lbl_stateIndex;
         private System.Windows.Forms.ProgressBar progressBar_steps;
-        private System.Windows.Forms.TextBox textBox1;
     }
 }

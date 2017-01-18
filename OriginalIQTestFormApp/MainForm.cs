@@ -31,9 +31,10 @@ namespace OriginalIQTestFormApp
         {
             InitializeComponent();
             vertices = Graph.CalculateVertices(boardLines);
-            SetInitialBoard();
-            SetFinalBoard();
+            SetBoards();
+
             SetDefaultMode();
+            SetDefaultBoardLines();
             DisableProgressBar();
             CreateSolveBackgroundWorker();
             SetLogger();
@@ -62,6 +63,12 @@ namespace OriginalIQTestFormApp
             solveBackgroundworker.DoWork += Solve_DoWork;
             solveBackgroundworker.RunWorkerCompleted += SolveCompleted;
             solveBackgroundworker.WorkerSupportsCancellation = true;
+        }
+
+        private void SetBoards()
+        {
+            SetInitialBoard();
+            SetFinalBoard();
         }
 
         private Board SetBoard(Color occupiedColor, Point location, int type)
@@ -104,6 +111,16 @@ namespace OriginalIQTestFormApp
         private void SetDefaultMode()
         {
             mode = 1; // classic
+            radioButton_classic.Checked = true;
+            radioButton_advanced.Checked = false;
+        }
+
+        private void SetDefaultBoardLines()
+        {
+            boardLines = 5;
+            radioButton_5.Checked = true;
+            radioButton_4.Checked = false;
+            finalBoard.Panel.Visible = false;
         }
 
         public bool[] InitializeVector(bool value)
@@ -280,6 +297,25 @@ namespace OriginalIQTestFormApp
                 btn_solve.Enabled = true;
                 DisableProgressBar();
             }
+        }
+
+        private void radioButton_5_CheckedChanged(object sender, EventArgs e)
+        {
+            boardLines = 5;
+            LoadBoards();
+        }
+
+        private void radioButton_4_CheckedChanged(object sender, EventArgs e)
+        {
+            boardLines = 4;
+            LoadBoards();
+        }
+
+        private void LoadBoards()
+        {
+            initialBoard.Panel.Dispose();
+            finalBoard.Panel.Dispose();
+            SetBoards();
         }
     }
 }

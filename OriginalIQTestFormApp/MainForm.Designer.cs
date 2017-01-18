@@ -38,7 +38,13 @@
             this.btn_solve = new System.Windows.Forms.Button();
             this.btn_cancel = new System.Windows.Forms.Button();
             this.txt_log = new System.Windows.Forms.TextBox();
+            this.radioButton_4 = new System.Windows.Forms.RadioButton();
+            this.radioButton_5 = new System.Windows.Forms.RadioButton();
+            this.groupBox_mode = new System.Windows.Forms.GroupBox();
+            this.groupBox_boardLines = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.groupBox_mode.SuspendLayout();
+            this.groupBox_boardLines.SuspendLayout();
             this.SuspendLayout();
             // 
             // pictureBox1
@@ -75,7 +81,7 @@
             // 
             this.radioButton_classic.AutoSize = true;
             this.radioButton_classic.Font = new System.Drawing.Font("Century", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioButton_classic.Location = new System.Drawing.Point(39, 496);
+            this.radioButton_classic.Location = new System.Drawing.Point(28, 19);
             this.radioButton_classic.Name = "radioButton_classic";
             this.radioButton_classic.Size = new System.Drawing.Size(91, 27);
             this.radioButton_classic.TabIndex = 3;
@@ -86,13 +92,11 @@
             // radioButton_advanced
             // 
             this.radioButton_advanced.AutoSize = true;
-            this.radioButton_advanced.Checked = true;
             this.radioButton_advanced.Font = new System.Drawing.Font("Century", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioButton_advanced.Location = new System.Drawing.Point(39, 531);
+            this.radioButton_advanced.Location = new System.Drawing.Point(28, 54);
             this.radioButton_advanced.Name = "radioButton_advanced";
             this.radioButton_advanced.Size = new System.Drawing.Size(115, 27);
             this.radioButton_advanced.TabIndex = 3;
-            this.radioButton_advanced.TabStop = true;
             this.radioButton_advanced.Text = "Advanced";
             this.radioButton_advanced.UseVisualStyleBackColor = true;
             this.radioButton_advanced.CheckedChanged += new System.EventHandler(this.radioButton_advanced_CheckedChanged);
@@ -132,7 +136,7 @@
             // 
             this.txt_log.BackColor = System.Drawing.Color.Black;
             this.txt_log.ForeColor = System.Drawing.SystemColors.Window;
-            this.txt_log.Location = new System.Drawing.Point(40, 583);
+            this.txt_log.Location = new System.Drawing.Point(12, 598);
             this.txt_log.MaximumSize = new System.Drawing.Size(300, 100);
             this.txt_log.Multiline = true;
             this.txt_log.Name = "txt_log";
@@ -141,23 +145,75 @@
             this.txt_log.Size = new System.Drawing.Size(278, 100);
             this.txt_log.TabIndex = 6;
             // 
+            // radioButton_4
+            // 
+            this.radioButton_4.AutoSize = true;
+            this.radioButton_4.Font = new System.Drawing.Font("Century", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioButton_4.Location = new System.Drawing.Point(13, 19);
+            this.radioButton_4.Name = "radioButton_4";
+            this.radioButton_4.Size = new System.Drawing.Size(39, 27);
+            this.radioButton_4.TabIndex = 3;
+            this.radioButton_4.Text = "4";
+            this.radioButton_4.UseVisualStyleBackColor = true;
+            this.radioButton_4.CheckedChanged += new System.EventHandler(this.radioButton_4_CheckedChanged);
+            // 
+            // radioButton_5
+            // 
+            this.radioButton_5.AutoSize = true;
+            this.radioButton_5.Checked = true;
+            this.radioButton_5.Font = new System.Drawing.Font("Century", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioButton_5.Location = new System.Drawing.Point(13, 54);
+            this.radioButton_5.Name = "radioButton_5";
+            this.radioButton_5.Size = new System.Drawing.Size(39, 27);
+            this.radioButton_5.TabIndex = 3;
+            this.radioButton_5.TabStop = true;
+            this.radioButton_5.Text = "5";
+            this.radioButton_5.UseVisualStyleBackColor = true;
+            this.radioButton_5.CheckedChanged += new System.EventHandler(this.radioButton_5_CheckedChanged);
+            // 
+            // groupBox_mode
+            // 
+            this.groupBox_mode.Controls.Add(this.radioButton_classic);
+            this.groupBox_mode.Controls.Add(this.radioButton_advanced);
+            this.groupBox_mode.Location = new System.Drawing.Point(12, 477);
+            this.groupBox_mode.Name = "groupBox_mode";
+            this.groupBox_mode.Size = new System.Drawing.Size(175, 100);
+            this.groupBox_mode.TabIndex = 7;
+            this.groupBox_mode.TabStop = false;
+            this.groupBox_mode.Text = "Mode";
+            // 
+            // groupBox_boardLines
+            // 
+            this.groupBox_boardLines.Controls.Add(this.radioButton_4);
+            this.groupBox_boardLines.Controls.Add(this.radioButton_5);
+            this.groupBox_boardLines.Location = new System.Drawing.Point(204, 477);
+            this.groupBox_boardLines.Name = "groupBox_boardLines";
+            this.groupBox_boardLines.Size = new System.Drawing.Size(153, 100);
+            this.groupBox_boardLines.TabIndex = 8;
+            this.groupBox_boardLines.TabStop = false;
+            this.groupBox_boardLines.Text = "Board lines";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1087, 757);
+            this.ClientSize = new System.Drawing.Size(1087, 741);
             this.Controls.Add(this.txt_log);
             this.Controls.Add(this.btn_cancel);
             this.Controls.Add(this.btn_solve);
             this.Controls.Add(this.progressBar_solve);
-            this.Controls.Add(this.radioButton_advanced);
-            this.Controls.Add(this.radioButton_classic);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.groupBox_mode);
+            this.Controls.Add(this.groupBox_boardLines);
             this.Name = "MainForm";
             this.Text = "Original IQ Tester";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.groupBox_mode.ResumeLayout(false);
+            this.groupBox_mode.PerformLayout();
+            this.groupBox_boardLines.ResumeLayout(false);
+            this.groupBox_boardLines.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -173,6 +229,10 @@
         private System.Windows.Forms.Button btn_solve;
         private System.Windows.Forms.Button btn_cancel;
         private System.Windows.Forms.TextBox txt_log;
+        private System.Windows.Forms.RadioButton radioButton_4;
+        private System.Windows.Forms.RadioButton radioButton_5;
+        private System.Windows.Forms.GroupBox groupBox_mode;
+        private System.Windows.Forms.GroupBox groupBox_boardLines;
     }
 }
 

@@ -15,7 +15,6 @@ namespace OriginalIQTestFormApp
         List<Step> stepsList;
         int currentGraphIndex;
         Board currentBoard;
-        int q = 1;
 
         public SolutionForm(int vertices, int boardLines, List<Step> stepsList, bool[] initialVector)
         {
@@ -29,33 +28,31 @@ namespace OriginalIQTestFormApp
             SetCurrentBoard();
             LoadStepsList();
             progressBar_steps.Maximum = stepsList.Count;
-            //ShowGraphsList(); // for check
+            UpdateBoardState();
         }
+
 
         private void BuildGraphsList()
         {
             graphsList = new List<Graph>();
-            //textBox1.AppendText(VectorToString(initialVector)); // works
             Graph currentGraph = new Graph(boardLines, initialVector);
-            //textBox1.AppendText($"Graph: {currentGraph}\n");
-            textBox1.AppendText($"0#: {GetVectorString(currentGraph)}\n");
             graphsList.Add(currentGraph);
-            int i = 1;
+            int i = 2;
             foreach (Step step in stepsList)
             {
-                currentGraph.PerformStep(step);
-                textBox1.AppendText($"{i}: {currentGraph}\n");
-                // textBox1.AppendText($"{i}#: {GetVectorString(currentGraph)}\n");
-                graphsList.Add(currentGraph);
+                Graph newGraph = currentGraph.CopyGraph();
+                newGraph.PerformStep(step);
+                graphsList.Add(newGraph);
+                currentGraph = newGraph;
                 i++;
             }
         }
 
         private void ShowGraphsList()
         {
-            foreach (Graph graph in graphsList)
+            for (int i = 0; i < graphsList.Count; i++)
             {
-                MessageBox.Show(GetVectorString(graph));
+                MessageBox.Show(GetVectorString(graphsList[i]));
             }
         }
 
@@ -101,7 +98,7 @@ namespace OriginalIQTestFormApp
 
         private void GotoLastStep()
         {
-            currentGraphIndex = stepsList.Count - 1;
+            currentGraphIndex = stepsList.Count;
             UpdateBoardState();
         }
 
@@ -214,32 +211,21 @@ namespace OriginalIQTestFormApp
 
         private void UpdateBoardState()
         {
-            //currentBoard._verticeslist[1].BackColor = Color.Green;
-
             Graph currentGraph = graphsList[currentGraphIndex];
-            // textBox1.Text = ($"{currentGraphIndex}#{GetVectorString(currentGraph)}\n");
-
             for (int i = 1; i < currentGraph.V.Count; i++)
             {
                 Vertex vertex = currentGraph.V[i];
                 if (vertex.HasChecker)
                 {
                     currentBoard._verticeslist[i - 1].BackColor = Color.Green;
-                    currentBoard._verticeslist[i - 1].Update();
                 }
                 else
                 {
                     currentBoard._verticeslist[i - 1].BackColor = Color.White;
-                    currentBoard._verticeslist[i - 1].Update();
                 }
             }
-            q++;
-            //currentBoard.SetBoardState(graphsList[currentGraphIndex]);
-            //listBox_stepsList.SelectedIndex = currentGraphIndex + 1;
             lbl_stateIndex.Text = $"{currentGraphIndex + 1}";
             progressBar_steps.Value = currentGraphIndex;
-            Invalidate();
-            Update();
         }
     }
 }

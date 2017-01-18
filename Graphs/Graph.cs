@@ -8,6 +8,11 @@ namespace Graphs
     {
         public List<Vertex> V;
 
+        public Graph()
+        {
+
+        }
+
         public Graph(int boardLines, bool[] vector)
         {
             V = new List<Vertex>();
@@ -42,6 +47,20 @@ namespace Graphs
                     V.Add(vertex);
                 }
             }
+        }
+
+        // Graph g=graph.CopyGraph()
+        public Graph CopyGraph()
+        {
+            Graph graph = new Graph();
+            graph.V = new List<Vertex>();
+            graph.V.Add(null);
+            for (int i = 1; i < V.Count; i++)
+            {
+                Vertex v = V[i].CopyVertex();
+                graph.V.Add(v);
+            }
+            return graph;
         }
 
         private int[] CreateNeighbors(int[,] M, int i, int j)

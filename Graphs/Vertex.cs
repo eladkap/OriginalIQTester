@@ -10,6 +10,11 @@ namespace Graphs
 
         public bool HasChecker { get; set; }
 
+        public Vertex()
+        {
+
+        }
+
         public Vertex(int index, bool hasChecker, int[] neighborsArray)
         {
             Index = index;
@@ -19,6 +24,20 @@ namespace Graphs
             {
                 Neighbors[i] = neighborsArray[i];
             }
+        }
+
+        public Vertex CopyVertex()
+        {
+            Vertex newVertex = new Vertex();
+            newVertex.HasChecker = HasChecker;
+            newVertex.Index = Index;
+            newVertex.Neighbors = new int[Neighbors.Length];
+            for (int i = 0; i < Neighbors.Length; i++)
+            {
+                newVertex.Neighbors[i] = Neighbors[i];
+            }
+
+            return newVertex;
         }
 
         public int NeighborType(int vertexIndex)
