@@ -1,5 +1,4 @@
 ﻿using Graphs;
-using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
@@ -31,7 +30,6 @@ namespace OriginalIQTestFormApp
             UpdateBoardState();
         }
 
-
         private void BuildGraphsList()
         {
             graphsList = new List<Graph>();
@@ -45,14 +43,6 @@ namespace OriginalIQTestFormApp
                 graphsList.Add(newGraph);
                 currentGraph = newGraph;
                 i++;
-            }
-        }
-
-        private void ShowGraphsList()
-        {
-            for (int i = 0; i < graphsList.Count; i++)
-            {
-                MessageBox.Show(GetVectorString(graphsList[i]));
             }
         }
 
@@ -173,41 +163,7 @@ namespace OriginalIQTestFormApp
         {
             currentGraphIndex = listBox_stepsList.SelectedIndex;
             UpdateBoardState();
-        }
-
-        private string GetVectorString(Graph graph)
-        {
-            string str = "";
-            for (int i = 1; i < graph.V.Count; i++)
-            {
-                if (graph.V[i].HasChecker)
-                {
-                    str += $"({i},T) ";
-                }
-                else
-                {
-                    str += $"({i},F) ";
-                }
-            }
-            return str;
-        }
-
-        private string VectorToString(bool[] vector)
-        {
-            string str = "";
-            for (int i = 1; i < vector.Length; i++)
-            {
-                if (vector[i])
-                {
-                    str += "1 ";
-                }
-                else
-                {
-                    str += "0 ";
-                }
-            }
-            return str;
-        }
+        }   
 
         private void UpdateBoardState()
         {
