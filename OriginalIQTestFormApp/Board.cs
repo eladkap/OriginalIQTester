@@ -8,7 +8,12 @@ namespace OriginalIQTestFormApp
 {
     public class Board
     {
+        private static Color bg1 = Color.FromArgb(26, 32, 40); // backcolor1
+        private static Color bg2 = Color.FromArgb(37, 46, 59); // backcolor2
+        private static Color fc1 = Color.Azure; // forecolor1
+        private static Color fc2 = Color.Black; // forecolor1
         private static Color EmptyColor = Color.White;
+
         private static int DeltaH = 50;
         private static double ShiftXRatio = 1.4;
         private static int ButtonSize = 32;
@@ -22,9 +27,9 @@ namespace OriginalIQTestFormApp
         private Color _occupiedColor;
         private int _boardLines;
         private int _vertices;
-        public Graph _graph; // TODO: change to private
+        public Graph _graph;
         private Panel _panel;
-        public List<Button> _verticeslist; // TODO: change to private
+        public List<Button> _verticeslist;
         private Dictionary<int, Button> _vertexToButtonDict;
 
         public Panel Panel { get { return _panel; } }
@@ -43,7 +48,7 @@ namespace OriginalIQTestFormApp
         public bool[] Vector { get; set; }
 
         // type: 1 - initial board or 2 - final board
-        public Board(int boardLines, Color occupiedColor, int type)
+        public Board(int boardLines, Color occupiedColor, int type, Size resolution)
         {
             _rnd = new Random();
             _type = type;
@@ -56,11 +61,38 @@ namespace OriginalIQTestFormApp
             _verticeslist = new List<Button>();
             Vector = InitializeVector(type);
             BuildGraphVertices();
+            ResizeControlsByResolution(resolution);
+        }
+
+        private void ResizeControlsByResolution(Size resolution)
+        {
+            foreach (var item in _verticeslist)
+            {
+                ResizeControlByResolution(item, resolution);
+            }
+            ResizeControlByResolution(_panel, resolution);
+
+            DeltaH = ResizeValue(DeltaH, resolution);
+            ButtonSize = ResizeValue(ButtonSize, resolution);
+        }
+
+        private void ResizeControlByResolution(Control control, Size resolution)
+        {
+            if (control is Button)
+            {
+                control.Size = new Size(resolution.Width / 20, resolution.Height / 20);
+            }
+        }
+
+        private int ResizeValue(int value, Size resolution)
+        {
+            return value;
         }
 
         private void SetPanel()
         {
-            _panel.BackColor = Color.Azure;
+            _panel.BackColor = Color.LightCyan;
+            _panel.BorderStyle = BorderStyle.FixedSingle;
             SetPanelSize(_panel, PanelWidth, PanelHeight);
         }
 
@@ -79,6 +111,7 @@ namespace OriginalIQTestFormApp
         private void SetPanelSize(Panel panel, int panelWidth, int panelHeight)
         {
             panel.Size = new Size(PanelWidth, PanelHeight);
+            panel.AutoSizeMode = AutoSizeMode.GrowAndShrink;
         }
 
         public void BuildGraphVertices()
@@ -100,6 +133,8 @@ namespace OriginalIQTestFormApp
                     Button btn = new Button();
 
                     btn.BackColor = Vector[k] ? _occupiedColor : EmptyColor;
+                    btn.ForeColor = Vector[k] ? fc1 : fc2;
+
                     btn.Width = ButtonSize;
                     btn.Height = ButtonSize;
 
@@ -149,6 +184,7 @@ namespace OriginalIQTestFormApp
         {
             Vector[vertexIndex] = !Vector[vertexIndex];
             _verticeslist[vertexIndex - 1].BackColor = Vector[vertexIndex] ? _occupiedColor : EmptyColor;
+            _verticeslist[vertexIndex - 1].ForeColor = Vector[vertexIndex] ? fc1 : fc2;
         }
 
         public int CountCheckers()
@@ -183,21 +219,6 @@ namespace OriginalIQTestFormApp
             {
                 Vertex vertex = graph.V[i];
                 if (vertex.HasChecker)
-                {
-                    _verticeslist[i - 1].BackColor = _occupiedColor;
-                }
-                else
-                {
-                    _verticeslist[i - 1].BackColor = EmptyColor;
-                }
-            }
-        }
-
-        public void SetBoardStateByVector(bool[] vector)
-        {
-            for (int i = 1; i < vector.Length; i++)
-            {
-                if (vector[i])
                 {
                     _verticeslist[i - 1].BackColor = _occupiedColor;
                 }

@@ -8,12 +8,21 @@ using System.ComponentModel;
 using System.Threading.Tasks;
 using Utilities;
 
+// 1440x1080 - Slides projector
+// 1368x766 - Laptop
+// 1920x1040 - Wide Screen
+
 namespace OriginalIQTestFormApp
 {
     public partial class MainForm : Form
     {
         private static Color EmptyColor = Color.White;
+        private static Color bg1 = Color.FromArgb(26, 32, 40); // backcolor1
+        private static Color bg2 = Color.FromArgb(37, 46, 59); // backcolor2
+        private static Color fc1 = Color.Azure; // forecolor1
 
+        private static double screenFactor = 0.5;
+        public Size screenSize;
         private Logger _logger;
 
         int boardLines = 5;
@@ -30,15 +39,54 @@ namespace OriginalIQTestFormApp
         public MainForm()
         {
             InitializeComponent();
+            screenSize = GetScreenResolution();
+            FactorizeScreen(screenFactor);
             vertices = Graph.CalculateVertices(boardLines);
             SetBoards();
-
             SetDefaultMode();
             SetDefaultBoardLines();
             DisableProgressBar();
             CreateSolveBackgroundWorker();
             SetLogger();
+            SetScreen();
+            SetControlsStyle();
             //WindowState = FormWindowState.Maximized;
+        }
+
+        private void FactorizeScreen(double factor)
+        {
+            screenSize.Width = (int)(screenSize.Width * factor);
+            screenSize.Height = (int)(screenSize.Height * factor);
+            MessageBox.Show($"{screenSize.Width}x{screenSize.Height}");
+        }
+
+        private Size GetScreenResolution()
+        {
+            Screen screen = Screen.FromControl(this);
+            Rectangle area = screen.WorkingArea;
+            //MessageBox.Show($"{area.Size.Width}x{area.Size.Height}");
+            return area.Size;
+        }
+
+        private void SetControlsStyle()
+        {
+            BackColor = bg1;
+            groupBox_boardLines.BackColor = bg2;
+            groupBox_mode.BackColor = bg2;
+            radioButton_4.ForeColor = fc1;
+            radioButton_5.ForeColor = fc1;
+            radioButton_advanced.ForeColor = fc1;
+            radioButton_classic.ForeColor = fc1;
+            label1.ForeColor = fc1;
+            label2.ForeColor = fc1;
+            groupBox_boardLines.ForeColor = Color.LightCyan;
+            groupBox_mode.ForeColor = Color.LightCyan;
+        }
+
+        private void SetScreen()
+        {
+            Location = new Point(0, 0);
+            Size = screenSize;
         }
 
         private void SetLogger()
@@ -73,32 +121,39 @@ namespace OriginalIQTestFormApp
 
         private Board SetBoard(Color occupiedColor, Point location, int type)
         {
-            Board board = new Board(boardLines, occupiedColor, type);
+            Board board = new Board(boardLines, occupiedColor, type, screenSize);
             board.Panel.Paint += new PaintEventHandler(panel_Paint);
-            board.Panel.Location = new Point(location.X, location.Y);
+            // board.Panel.Location = new Point(location.X, location.Y);
             foreach (var vertexButton in board.VertexButtonsList)
             {
                 vertexButton.Click += new EventHandler(vertex_click);
             }
-            Controls.Add(board.Panel);
+            //Controls.Add(board.Panel);
+            if (type == 1)
+            {
+                flowLayoutPanel1.Controls.Add(board.Panel);
+            }
+            else
+            {
+                flowLayoutPanel2.Controls.Add(board.Panel);
+            }
             return board;
         }
 
         private void SetInitialBoard()
         {
-            initialBoard = SetBoard(Color.Blue, new Point(40, 160), 1);
+            initialBoard = SetBoard(bg1, new Point(40, 160), 1);
         }
 
         private void SetFinalBoard()
         {
-            finalBoard = SetBoard(Color.Green, new Point(570, 160), 2);
+            finalBoard = SetBoard(bg1, new Point(570, 160), 2);
         }
 
         private void DisableProgressBar()
         {
             progressBar_solve.Style = ProgressBarStyle.Continuous;
             progressBar_solve.MarqueeAnimationSpeed = 0;
-            progressBar_solve.Hide();
         }
 
         private void EnableProgressBar()
@@ -225,6 +280,7 @@ namespace OriginalIQTestFormApp
         private void ShowSolution(List<Step> stepsList)
         {
             solutionForm = new SolutionForm(vertices, boardLines, stepsList, initialBoard.Vector);
+            solutionForm._mainForm = this;
             solutionForm.ShowDialog();
         }
 
@@ -299,15 +355,21 @@ namespace OriginalIQTestFormApp
             }
         }
 
+        private void radioButton_4_CheckedChanged(object sender, EventArgs e)
+        {
+            boardLines = 4;
+            LoadBoards();
+        }
+
         private void radioButton_5_CheckedChanged(object sender, EventArgs e)
         {
             boardLines = 5;
             LoadBoards();
         }
 
-        private void radioButton_4_CheckedChanged(object sender, EventArgs e)
+        private void radioButton_6_CheckedChanged(object sender, EventArgs e)
         {
-            boardLines = 4;
+            boardLines = 6;
             LoadBoards();
         }
 
@@ -317,5 +379,31 @@ namespace OriginalIQTestFormApp
             finalBoard.Panel.Dispose();
             SetBoards();
         }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            float width_ratio = (Screen.PrimaryScreen.Bounds.Width / 1280);
+            float height_ratio = (Screen.PrimaryScreen.Bounds.Height / 800f);
+
+
+            SizeF scale = new SizeF(width_ratio, height_ratio);
+
+            this.Scale(scale);
+
+            //And for font size
+            foreach (Control control in this.Controls)
+            {
+                control.Font = new Font("Microsoft Sans Serif", control.Font.SizeInPoints * width_ratio * height_ratio);
+                if (control.HasChildren)
+                {
+                    foreach (Control childControl in control.Controls)
+                    {
+                        childControl.Font = new Font("Microsoft Sans Serif", childControl.Font.SizeInPoints * width_ratio * height_ratio);
+                    }
+                }
+            }
+        }
+
+
     }
 }

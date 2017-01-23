@@ -1,4 +1,5 @@
 ﻿using Graphs;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
@@ -14,6 +15,7 @@ namespace OriginalIQTestFormApp
         List<Step> stepsList;
         int currentGraphIndex;
         Board currentBoard;
+        public MainForm _mainForm;
 
         public SolutionForm(int vertices, int boardLines, List<Step> stepsList, bool[] initialVector)
         {
@@ -53,7 +55,7 @@ namespace OriginalIQTestFormApp
 
         private Board SetBoard(Color occupiedColor, Point location, int type)
         {
-            Board board = new Board(boardLines, occupiedColor, type);
+            Board board = new Board(boardLines, occupiedColor, type, _mainForm.screenSize);
             board.Vector = initialVector;
             board.Panel.Paint += new PaintEventHandler(panel_Paint);
             board.Panel.Location = new Point(location.X, location.Y);
@@ -163,7 +165,8 @@ namespace OriginalIQTestFormApp
         {
             currentGraphIndex = listBox_stepsList.SelectedIndex;
             UpdateBoardState();
-        }   
+        }
+
 
         private void UpdateBoardState()
         {
