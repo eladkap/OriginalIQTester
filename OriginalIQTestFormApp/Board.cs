@@ -14,6 +14,12 @@ namespace OriginalIQTestFormApp
         private static Color fc2 = Color.Black; // forecolor1
         private static Color EmptyColor = Color.White;
 
+        private static int buttonSizeDiv = 50;
+        private static int panelDiv = 2;
+        private static int deltaDiv = 40;
+        private static int paddingDb = 13;
+        private static int fontDiv = 160;
+
         private static int DeltaH = 50;
         private static double ShiftXRatio = 1.4;
         private static int ButtonSize = 32;
@@ -64,29 +70,36 @@ namespace OriginalIQTestFormApp
             ResizeControlsByResolution(resolution);
         }
 
-        private void ResizeControlsByResolution(Size resolution)
+        private void ResizePanelSize(Size resolution)
+        {
+            int shiftX = (int)(DeltaH / ShiftXRatio);
+            //int width = _boardLines * ButtonSize + _boardLines * shiftX;// + PanelPaddingY;
+           // int height = _boardLines * ButtonSize + _boardLines * DeltaH;// + PanelPaddingY;
+            int width = resolution.Width / 3;
+            int height = resolution.Width / 3;
+            _panel.Size = new Size(width, height);
+        }
+
+        public void ResizeControlsByResolution(Size resolution)
         {
             foreach (var item in _verticeslist)
             {
                 ResizeControlByResolution(item, resolution);
             }
-            ResizeControlByResolution(_panel, resolution);
-
-            DeltaH = ResizeValue(DeltaH, resolution);
-            ButtonSize = ResizeValue(ButtonSize, resolution);
+            DeltaH = ResizeValue(resolution, deltaDiv);
+            ButtonSize = ResizeValue(resolution, paddingDb);
+            ResizePanelSize(resolution);
         }
 
         private void ResizeControlByResolution(Control control, Size resolution)
         {
-            if (control is Button)
-            {
-                control.Size = new Size(resolution.Width / 20, resolution.Height / 20);
-            }
+            control.Size = new Size(resolution.Width / buttonSizeDiv, resolution.Width / buttonSizeDiv);
+            control.Font = new Font("Arial", resolution.Width / fontDiv, FontStyle.Regular);
         }
 
-        private int ResizeValue(int value, Size resolution)
+        private int ResizeValue(Size resolution, int div)
         {
-            return value;
+            return resolution.Width / div;
         }
 
         private void SetPanel()
@@ -119,7 +132,7 @@ namespace OriginalIQTestFormApp
             Pen pen = new Pen(Color.Black, 3);
             Font font = new Font("Arial", IndexFont, FontStyle.Regular);
 
-            int btnX = _panel.Width / 2;
+            int btnX = _panel.Width / 2 + PanelPaddingY;
             int btnY = PanelPaddingY;
 
             int deltaH = DeltaH;

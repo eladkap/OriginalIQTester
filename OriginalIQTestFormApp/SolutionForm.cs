@@ -8,6 +8,11 @@ namespace OriginalIQTestFormApp
 {
     public partial class SolutionForm : Form
     {
+        private static Color EmptyColor = Color.White;
+        private static Color bg1 = Color.FromArgb(26, 32, 40); // backcolor1
+        private static Color bg2 = Color.FromArgb(37, 46, 59); // backcolor2
+        private static Color fc1 = Color.Azure; // forecolor1
+
         List<Graph> graphsList;
         int boardLines;
         int vertices;
@@ -16,10 +21,13 @@ namespace OriginalIQTestFormApp
         int currentGraphIndex;
         Board currentBoard;
         public MainForm _mainForm;
+        public Size _screenSize;
 
-        public SolutionForm(int vertices, int boardLines, List<Step> stepsList, bool[] initialVector)
+        public SolutionForm(int vertices, int boardLines, List<Step> stepsList, bool[] initialVector, MainForm mainForm, Size screenSize)
         {
             InitializeComponent();
+            _mainForm = mainForm;
+            _screenSize = screenSize;
             this.stepsList = stepsList;
             this.boardLines = boardLines;
             this.vertices = vertices;
@@ -29,7 +37,17 @@ namespace OriginalIQTestFormApp
             SetCurrentBoard();
             LoadStepsList();
             progressBar_steps.Maximum = stepsList.Count;
+            SetControlsStyle();
             UpdateBoardState();
+        }
+
+        private void SetControlsStyle()
+        {
+            BackColor = bg1;
+            btn_first.BackColor = bg1;
+            lbl_stateIndex.ForeColor = fc1;
+            listBox_stepsList.BackColor = bg2;
+            listBox_stepsList.ForeColor = fc1;
         }
 
         private void BuildGraphsList()
@@ -56,10 +74,11 @@ namespace OriginalIQTestFormApp
         private Board SetBoard(Color occupiedColor, Point location, int type)
         {
             Board board = new Board(boardLines, occupiedColor, type, _mainForm.screenSize);
+            board.ResizeControlsByResolution(_screenSize);
             board.Vector = initialVector;
             board.Panel.Paint += new PaintEventHandler(panel_Paint);
             board.Panel.Location = new Point(location.X, location.Y);
-            Controls.Add(board.Panel);
+            flowLayoutPanel_currBoard.Controls.Add(board.Panel);
             return board;
         }
 

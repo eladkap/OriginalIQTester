@@ -21,7 +21,6 @@ namespace OriginalIQTestFormApp
         private static Color bg2 = Color.FromArgb(37, 46, 59); // backcolor2
         private static Color fc1 = Color.Azure; // forecolor1
 
-        private static double screenFactor = 0.5;
         public Size screenSize;
         private Logger _logger;
 
@@ -40,7 +39,7 @@ namespace OriginalIQTestFormApp
         {
             InitializeComponent();
             screenSize = GetScreenResolution();
-            FactorizeScreen(screenFactor);
+            MessageBox.Show($"{screenSize.Width}x{screenSize.Height}");
             vertices = Graph.CalculateVertices(boardLines);
             SetBoards();
             SetDefaultMode();
@@ -50,21 +49,22 @@ namespace OriginalIQTestFormApp
             SetLogger();
             SetScreen();
             SetControlsStyle();
+            ResizeResolution(screenSize);
             //WindowState = FormWindowState.Maximized;
         }
 
-        private void FactorizeScreen(double factor)
+        private void ResizeResolution(Size resolution)
         {
-            screenSize.Width = (int)(screenSize.Width * factor);
-            screenSize.Height = (int)(screenSize.Height * factor);
-            MessageBox.Show($"{screenSize.Width}x{screenSize.Height}");
+            screenSize = resolution;
+            SetScreen();
+            initialBoard.ResizeControlsByResolution(resolution);
+            finalBoard.ResizeControlsByResolution(resolution);
         }
 
         private Size GetScreenResolution()
         {
             Screen screen = Screen.FromControl(this);
             Rectangle area = screen.WorkingArea;
-            //MessageBox.Show($"{area.Size.Width}x{area.Size.Height}");
             return area.Size;
         }
 
@@ -119,16 +119,14 @@ namespace OriginalIQTestFormApp
             SetFinalBoard();
         }
 
-        private Board SetBoard(Color occupiedColor, Point location, int type)
+        private Board SetBoard(Color occupiedColor, int type)
         {
             Board board = new Board(boardLines, occupiedColor, type, screenSize);
             board.Panel.Paint += new PaintEventHandler(panel_Paint);
-            // board.Panel.Location = new Point(location.X, location.Y);
             foreach (var vertexButton in board.VertexButtonsList)
             {
                 vertexButton.Click += new EventHandler(vertex_click);
             }
-            //Controls.Add(board.Panel);
             if (type == 1)
             {
                 flowLayoutPanel1.Controls.Add(board.Panel);
@@ -142,12 +140,12 @@ namespace OriginalIQTestFormApp
 
         private void SetInitialBoard()
         {
-            initialBoard = SetBoard(bg1, new Point(40, 160), 1);
+            initialBoard = SetBoard(bg1, 1);
         }
 
         private void SetFinalBoard()
         {
-            finalBoard = SetBoard(bg1, new Point(570, 160), 2);
+            finalBoard = SetBoard(bg1, 2);
         }
 
         private void DisableProgressBar()
@@ -279,7 +277,7 @@ namespace OriginalIQTestFormApp
 
         private void ShowSolution(List<Step> stepsList)
         {
-            solutionForm = new SolutionForm(vertices, boardLines, stepsList, initialBoard.Vector);
+            solutionForm = new SolutionForm(vertices, boardLines, stepsList, initialBoard.Vector, this, screenSize);
             solutionForm._mainForm = this;
             solutionForm.ShowDialog();
         }
@@ -404,6 +402,14 @@ namespace OriginalIQTestFormApp
             }
         }
 
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Exit();
+        }
 
+        private void Exit()
+        {
+            Environment.Exit(0);
+        }
     }
 }

@@ -40,21 +40,25 @@
             this.radioButton_5 = new System.Windows.Forms.RadioButton();
             this.groupBox_mode = new System.Windows.Forms.GroupBox();
             this.groupBox_boardLines = new System.Windows.Forms.GroupBox();
+            this.radioButton_6 = new System.Windows.Forms.RadioButton();
             this.flowLayoutPanel_Screen = new System.Windows.Forms.FlowLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
             this.tableLayoutPanel_screen = new System.Windows.Forms.TableLayoutPanel();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.progressBar_solve = new System.Windows.Forms.ProgressBar();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
-            this.radioButton_6 = new System.Windows.Forms.RadioButton();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox_mode.SuspendLayout();
             this.groupBox_boardLines.SuspendLayout();
             this.tableLayoutPanel_screen.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // pictureBox1
@@ -62,7 +66,7 @@
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
             this.pictureBox1.Location = new System.Drawing.Point(3, 3);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(233, 64);
+            this.pictureBox1.Size = new System.Drawing.Size(233, 63);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
@@ -71,7 +75,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Century", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(435, 72);
+            this.label2.Location = new System.Drawing.Point(454, 69);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(127, 25);
             this.label2.TabIndex = 2;
@@ -130,13 +134,13 @@
             // 
             this.txt_log.BackColor = System.Drawing.Color.Black;
             this.txt_log.ForeColor = System.Drawing.SystemColors.Window;
-            this.txt_log.Location = new System.Drawing.Point(839, 121);
+            this.txt_log.Location = new System.Drawing.Point(880, 116);
             this.txt_log.MaximumSize = new System.Drawing.Size(300, 100);
             this.txt_log.Multiline = true;
             this.txt_log.Name = "txt_log";
             this.txt_log.ReadOnly = true;
             this.txt_log.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txt_log.Size = new System.Drawing.Size(240, 100);
+            this.txt_log.Size = new System.Drawing.Size(200, 100);
             this.txt_log.TabIndex = 6;
             // 
             // radioButton_4
@@ -172,7 +176,7 @@
             this.groupBox_mode.Controls.Add(this.radioButton_advanced);
             this.groupBox_mode.Location = new System.Drawing.Point(3, 3);
             this.groupBox_mode.Name = "groupBox_mode";
-            this.groupBox_mode.Size = new System.Drawing.Size(172, 133);
+            this.groupBox_mode.Size = new System.Drawing.Size(172, 121);
             this.groupBox_mode.TabIndex = 7;
             this.groupBox_mode.TabStop = false;
             this.groupBox_mode.Text = "Mode";
@@ -184,10 +188,22 @@
             this.groupBox_boardLines.Controls.Add(this.radioButton_5);
             this.groupBox_boardLines.Location = new System.Drawing.Point(216, 3);
             this.groupBox_boardLines.Name = "groupBox_boardLines";
-            this.groupBox_boardLines.Size = new System.Drawing.Size(175, 133);
+            this.groupBox_boardLines.Size = new System.Drawing.Size(175, 129);
             this.groupBox_boardLines.TabIndex = 8;
             this.groupBox_boardLines.TabStop = false;
             this.groupBox_boardLines.Text = "Board lines";
+            // 
+            // radioButton_6
+            // 
+            this.radioButton_6.AutoSize = true;
+            this.radioButton_6.Font = new System.Drawing.Font("Century", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioButton_6.Location = new System.Drawing.Point(13, 87);
+            this.radioButton_6.Name = "radioButton_6";
+            this.radioButton_6.Size = new System.Drawing.Size(39, 27);
+            this.radioButton_6.TabIndex = 3;
+            this.radioButton_6.Text = "6";
+            this.radioButton_6.UseVisualStyleBackColor = true;
+            this.radioButton_6.CheckedChanged += new System.EventHandler(this.radioButton_6_CheckedChanged);
             // 
             // flowLayoutPanel_Screen
             // 
@@ -202,7 +218,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Century", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(3, 72);
+            this.label1.Location = new System.Drawing.Point(3, 69);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(137, 25);
             this.label1.TabIndex = 2;
@@ -212,9 +228,9 @@
             // 
             this.tableLayoutPanel_screen.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.tableLayoutPanel_screen.ColumnCount = 3;
-            this.tableLayoutPanel_screen.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 51.65877F));
-            this.tableLayoutPanel_screen.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 48.34123F));
-            this.tableLayoutPanel_screen.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 247F));
+            this.tableLayoutPanel_screen.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 51.42531F));
+            this.tableLayoutPanel_screen.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 48.57469F));
+            this.tableLayoutPanel_screen.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 206F));
             this.tableLayoutPanel_screen.Controls.Add(this.label2, 1, 1);
             this.tableLayoutPanel_screen.Controls.Add(this.label1, 0, 1);
             this.tableLayoutPanel_screen.Controls.Add(this.pictureBox1, 0, 0);
@@ -225,26 +241,16 @@
             this.tableLayoutPanel_screen.Controls.Add(this.txt_log, 2, 2);
             this.tableLayoutPanel_screen.Controls.Add(this.flowLayoutPanel1, 0, 2);
             this.tableLayoutPanel_screen.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel_screen.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel_screen.Location = new System.Drawing.Point(0, 24);
             this.tableLayoutPanel_screen.Name = "tableLayoutPanel_screen";
             this.tableLayoutPanel_screen.RowCount = 5;
             this.tableLayoutPanel_screen.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.13592F));
             this.tableLayoutPanel_screen.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 7.76699F));
             this.tableLayoutPanel_screen.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 43.68932F));
-            this.tableLayoutPanel_screen.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 24.27184F));
-            this.tableLayoutPanel_screen.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.13592F));
-            this.tableLayoutPanel_screen.Size = new System.Drawing.Size(1084, 601);
+            this.tableLayoutPanel_screen.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 24.62562F));
+            this.tableLayoutPanel_screen.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.31281F));
+            this.tableLayoutPanel_screen.Size = new System.Drawing.Size(1084, 577);
             this.tableLayoutPanel_screen.TabIndex = 13;
-            // 
-            // flowLayoutPanel1
-            // 
-            this.flowLayoutPanel1.AutoSize = true;
-            this.flowLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.flowLayoutPanel1.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 121);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(0, 0);
-            this.flowLayoutPanel1.TabIndex = 9;
             // 
             // tableLayoutPanel2
             // 
@@ -253,11 +259,11 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.Controls.Add(this.groupBox_mode, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.groupBox_boardLines, 1, 0);
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 383);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 366);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(426, 139);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(426, 135);
             this.tableLayoutPanel2.TabIndex = 11;
             // 
             // tableLayoutPanel1
@@ -267,7 +273,7 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 51.89189F));
             this.tableLayoutPanel1.Controls.Add(this.btn_solve, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.btn_cancel, 1, 0);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(435, 383);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(454, 366);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -276,7 +282,7 @@
             // 
             // progressBar_solve
             // 
-            this.progressBar_solve.Location = new System.Drawing.Point(435, 528);
+            this.progressBar_solve.Location = new System.Drawing.Point(454, 507);
             this.progressBar_solve.Name = "progressBar_solve";
             this.progressBar_solve.Size = new System.Drawing.Size(304, 23);
             this.progressBar_solve.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
@@ -286,22 +292,45 @@
             // 
             this.flowLayoutPanel2.AutoSize = true;
             this.flowLayoutPanel2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.flowLayoutPanel2.Location = new System.Drawing.Point(435, 121);
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(454, 116);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
             this.flowLayoutPanel2.Size = new System.Drawing.Size(0, 0);
             this.flowLayoutPanel2.TabIndex = 0;
             // 
-            // radioButton_6
+            // flowLayoutPanel1
             // 
-            this.radioButton_6.AutoSize = true;
-            this.radioButton_6.Font = new System.Drawing.Font("Century", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioButton_6.Location = new System.Drawing.Point(13, 87);
-            this.radioButton_6.Name = "radioButton_6";
-            this.radioButton_6.Size = new System.Drawing.Size(39, 27);
-            this.radioButton_6.TabIndex = 3;
-            this.radioButton_6.Text = "6";
-            this.radioButton_6.UseVisualStyleBackColor = true;
-            this.radioButton_6.CheckedChanged += new System.EventHandler(this.radioButton_6_CheckedChanged);
+            this.flowLayoutPanel1.AutoSize = true;
+            this.flowLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.flowLayoutPanel1.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 116);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(0, 0);
+            this.flowLayoutPanel1.TabIndex = 9;
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(1084, 24);
+            this.menuStrip1.TabIndex = 14;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // fileToolStripMenuItem
+            // 
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.exitToolStripMenuItem});
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Text = "File";
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
+            this.exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -311,7 +340,9 @@
             this.ClientSize = new System.Drawing.Size(1084, 601);
             this.Controls.Add(this.flowLayoutPanel_Screen);
             this.Controls.Add(this.tableLayoutPanel_screen);
+            this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
             this.Text = "Original IQ Tester";
             this.Load += new System.EventHandler(this.MainForm_Load);
@@ -324,6 +355,8 @@
             this.tableLayoutPanel_screen.PerformLayout();
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -350,6 +383,9 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.ProgressBar progressBar_solve;
         private System.Windows.Forms.RadioButton radioButton_6;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
     }
 }
 
