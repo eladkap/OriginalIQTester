@@ -56,7 +56,7 @@
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
             this.pictureBox1.Location = new System.Drawing.Point(3, 3);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(233, 63);
+            this.pictureBox1.Size = new System.Drawing.Size(260, 70);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 2;
             this.pictureBox1.TabStop = false;
@@ -68,7 +68,7 @@
             this.listBox_stepsList.ItemHeight = 25;
             this.listBox_stepsList.Location = new System.Drawing.Point(3, 87);
             this.listBox_stepsList.Name = "listBox_stepsList";
-            this.listBox_stepsList.Size = new System.Drawing.Size(233, 329);
+            this.listBox_stepsList.Size = new System.Drawing.Size(260, 329);
             this.listBox_stepsList.TabIndex = 3;
             this.listBox_stepsList.SelectedIndexChanged += new System.EventHandler(this.listBox_stepsList_SelectedIndexChanged);
             // 

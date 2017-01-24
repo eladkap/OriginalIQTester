@@ -39,6 +39,7 @@ namespace OriginalIQTestFormApp
             progressBar_steps.Maximum = stepsList.Count;
             SetControlsStyle();
             UpdateBoardState();
+            listBox_stepsList.HorizontalScrollbar = true;
         }
 
         private void SetControlsStyle()
@@ -196,10 +197,12 @@ namespace OriginalIQTestFormApp
                 if (vertex.HasChecker)
                 {
                     currentBoard._verticeslist[i - 1].BackColor = Color.Green;
+                    currentBoard._verticeslist[i - 1].ForeColor = Color.Azure;
                 }
                 else
                 {
                     currentBoard._verticeslist[i - 1].BackColor = Color.White;
+                    currentBoard._verticeslist[i - 1].ForeColor = Color.Black;
                 }
             }
             lbl_stateIndex.Text = $"{currentGraphIndex + 1}";
