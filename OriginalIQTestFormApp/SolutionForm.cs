@@ -187,7 +187,6 @@ namespace OriginalIQTestFormApp
             UpdateBoardState();
         }
 
-
         private void UpdateBoardState()
         {
             Graph currentGraph = graphsList[currentGraphIndex];
@@ -196,12 +195,12 @@ namespace OriginalIQTestFormApp
                 Vertex vertex = currentGraph.V[i];
                 if (vertex.HasChecker)
                 {
-                    currentBoard._verticeslist[i - 1].BackColor = Color.Green;
-                    currentBoard._verticeslist[i - 1].ForeColor = Color.Azure;
+                    currentBoard._verticeslist[i - 1].BackColor = bg1;
+                    currentBoard._verticeslist[i - 1].ForeColor = fc1;
                 }
                 else
                 {
-                    currentBoard._verticeslist[i - 1].BackColor = Color.White;
+                    currentBoard._verticeslist[i - 1].BackColor = Color.Azure;
                     currentBoard._verticeslist[i - 1].ForeColor = Color.Black;
                 }
             }

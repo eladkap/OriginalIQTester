@@ -39,7 +39,7 @@ namespace OriginalIQTestFormApp
         {
             InitializeComponent();
             screenSize = GetScreenResolution();
-            MessageBox.Show($"{screenSize.Width}x{screenSize.Height}");
+            //MessageBox.Show($"{screenSize.Width}x{screenSize.Height}");
             vertices = Graph.CalculateVertices(boardLines);
             SetBoards();
             SetDefaultMode();

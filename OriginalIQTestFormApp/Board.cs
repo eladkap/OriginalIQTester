@@ -14,11 +14,11 @@ namespace OriginalIQTestFormApp
         private static Color fc2 = Color.Black; // forecolor1
         private static Color EmptyColor = Color.White;
 
-        private static int buttonSizeDiv = 50;
+        private static int buttonSizeDiv = 50; // 50
         private static int panelDiv = 2;
         private static int deltaDiv = 40;
         private static int paddingDb = 13;
-        private static int fontDiv = 160;
+        private static int fontDiv = 160; // 160
 
         private static int DeltaH = 50;
         private static double ShiftXRatio = 1.4;
@@ -94,7 +94,7 @@ namespace OriginalIQTestFormApp
         private void ResizeControlByResolution(Control control, Size resolution)
         {
             control.Size = new Size(resolution.Width / buttonSizeDiv, resolution.Width / buttonSizeDiv);
-            control.Font = new Font("Arial", resolution.Width / fontDiv, FontStyle.Regular);
+            control.Font = new Font("Arial", resolution.Width / fontDiv, FontStyle.Bold);
         }
 
         private int ResizeValue(Size resolution, int div)
